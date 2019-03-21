@@ -11,7 +11,7 @@ public abstract class User {
     private String role;
 
 
-    private User() {
+    public User() {
         this.id = ++incrementId;
     }
 

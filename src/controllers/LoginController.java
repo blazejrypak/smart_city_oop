@@ -12,12 +12,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Login;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+    private Login login = new Login();
 
     @FXML
     private TextField username;
@@ -35,9 +37,7 @@ public class LoginController implements Initializable {
         username = this.username.getText();
         password = this.password.getText();
 
-        DataStorage db = DataStorage.getInstance();
-
-        if (db.existUser(username, password)) {
+        if (login.login(username, password)) {
             Parent root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));
 
             Node node = (Node) event.getSource();

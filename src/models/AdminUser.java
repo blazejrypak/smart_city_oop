@@ -9,7 +9,7 @@ public class AdminUser extends User {
     private DataStorage dataStorage = DataStorage.getInstance();
     private JSONArray usersObjects = dataStorage.getAllUsers();
 
-    private AdminUser() {
+    public AdminUser() {
         super();
     }
 
@@ -20,16 +20,17 @@ public class AdminUser extends User {
         return adminUserInstance;
     }
 
-    private void deleteFromDatabase(int id) {
+    private void deleteFromDataStorage(int id) {
         for (Object obj: this.usersObjects) {
             JSONObject user = (JSONObject) obj;
             if (user.get("id").equals(id)) {
                 this.usersObjects.remove(user);
             }
         }
+        dataStorage.saveJsonArray(usersObjects, "users");
     }
 
     public void deleteUser(User user) {
-        deleteFromDatabase(user.getId());
+        deleteFromDataStorage(user.getId());
     }
 }
