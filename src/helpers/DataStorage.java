@@ -10,21 +10,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Database {
-    private static Database instance;
+public class DataStorage {
+    private static DataStorage instance;
     private JSONParser parser = new JSONParser();
     private JSONArray jsonArrayUsers;
     private JSONArray jsonArrayCurrentEvents;
     private String USERS = "/home/bubko/IdeaProjects/SmartCity/src/helpers/users.json";
     private String CURRENT_EVENTS = "/home/bubko/IdeaProjects/SmartCity/src/helpers/current_events.json";
 
-    private Map<String, String> eventTypes = new HashMap<String, String>();
+    private Map<String, String> eventTypes = new HashMap<>();
 
-    private Database() {
+    private DataStorage() {
         eventTypes.put("street_light", "street_light");
         eventTypes.put("pothole", "pothole");
         eventTypes.put("bajk", "bajk");
@@ -48,19 +48,19 @@ public class Database {
 
             this.jsonArrayCurrentEvents = (JSONArray) obj;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
+    public JSONArray getAllUsers() {
+        return this.jsonArrayUsers;
+    }
+
     public JSONArray getEventsOfType(String type) {
         JSONArray events = new JSONArray();
-        for (int i = 0; i < jsonArrayCurrentEvents.size(); i++) {
-            JSONObject obj = (JSONObject) jsonArrayCurrentEvents.get(i);
+        for (Object jsonArrayCurrentEvent : jsonArrayCurrentEvents) {
+            JSONObject obj = (JSONObject) jsonArrayCurrentEvent;
             if (obj.get("type").equals(getEventType(type))) {
                 events.add(obj);
             }
@@ -70,9 +70,9 @@ public class Database {
 
     public int getNumberOfEvents(String type) {
         int count = 0;
-        for (int i = 0; i < jsonArrayCurrentEvents.size(); i++) {
+        for (Object jsonArrayCurrentEvent : jsonArrayCurrentEvents) {
             JSONObject item = new JSONObject();
-            item = (JSONObject) jsonArrayCurrentEvents.get(i);
+            item = (JSONObject) jsonArrayCurrentEvent;
             if (item.get("type").equals(getEventType(type))) {
                 count++;
             }
@@ -112,18 +112,14 @@ public class Database {
 
             this.jsonArrayUsers = (JSONArray) obj;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public static Database getInstance() {
+    public static DataStorage getInstance() {
         if (instance == null) {
-            instance = new Database();
+            instance = new DataStorage();
         }
         return instance;
     }
@@ -153,8 +149,8 @@ public class Database {
     }
 
     public boolean existUsername(String username) {
-        for (int i = 0; i < this.jsonArrayUsers.size(); i++) {
-            JSONObject user = (JSONObject) this.jsonArrayUsers.get(i);
+        for (Object jsonArrayUser : this.jsonArrayUsers) {
+            JSONObject user = (JSONObject) jsonArrayUser;
             if (user.get("username").equals(username)) {
                 return true;
             }
@@ -163,20 +159,20 @@ public class Database {
     }
 
     public boolean existUser(String username, String password) {
-        for (int i = 0; i < this.jsonArrayUsers.size(); i++) {
-            JSONObject user = (JSONObject) this.jsonArrayUsers.get(i);
+        for (Object jsonArrayUser : this.jsonArrayUsers) {
+            JSONObject user = (JSONObject) jsonArrayUser;
             if (user.get("username").equals(username) && user.get("password").equals(password)) {
-                User usr = User.getInstance();
-                usr.setId(((Number) user.get("id")).intValue());
-                usr.setUsername((String) user.get("username"));
-                usr.setPassword((String) user.get("password"));
-                usr.setFirst_name((String) user.get("first_name"));
-                usr.setLast_name((String) user.get("last_name"));
-                usr.setAdress((String) user.get("adress"));
-                usr.setEmail((String) user.get("email"));
-                usr.setGender((String) user.get("gender"));
-                usr.setPhone_number((String) user.get("phone_number"));
-                usr.setRole((String) user.get("role"));
+//                User usr = User.getInstance();
+//                usr.setId(((Number) user.get("id")).intValue());
+//                usr.setUsername((String) user.get("username"));
+//                usr.setPassword((String) user.get("password"));
+//                usr.setFirst_name((String) user.get("first_name"));
+//                usr.setLast_name((String) user.get("last_name"));
+//                usr.setAddress((String) user.get("adress"));
+//                usr.setEmail((String) user.get("email"));
+//                usr.setGender((String) user.get("gender"));
+//                usr.setPhone_number((String) user.get("phone_number"));
+//                usr.setRole((String) user.get("role"));
                 return true;
             }
         }

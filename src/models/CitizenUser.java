@@ -1,4 +1,4 @@
 package models;
 
-public class CitizenUser {
+public class CitizenUser extends User {
 }
