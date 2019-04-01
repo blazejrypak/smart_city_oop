@@ -1,32 +1,19 @@
 package models;
 
-public class Category {
-    private int id;
+import java.util.ArrayList;
 
-    public String getType() {
-        return type;
-    }
+public interface Category {
+    String getType();
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    void setType(String type);
 
-    private String type;
-    private String tittle;
+    int getId();
 
-    public int getId() {
-        return id;
-    }
+    void setId(int id);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    void setTitle(String tittle);
 
-    public String getTittle() {
-        return tittle;
-    }
+    String getTitle();
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
-    }
+    <T> ArrayList<T> getCategoryEvents();
 }

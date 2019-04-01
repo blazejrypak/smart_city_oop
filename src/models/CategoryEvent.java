@@ -1,28 +1,31 @@
 package models;
 
-public class CategoryEvent extends models.Category {
+import org.json.simple.JSONObject;
+
+public class CategoryEvent {
     private static int incrementId = 0;
     private int id;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
     private String message;
     private Address address;
     private Localization localization;
 
-    public static int getIncrementId() {
-        return incrementId;
+    public CategoryEvent() {
+        super();
+        this.id = ++incrementId;
     }
 
-    public static void setIncrementId(int incrementId) {
-        CategoryEvent.incrementId = incrementId;
-    }
-
-    @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMessage() {
@@ -49,8 +52,13 @@ public class CategoryEvent extends models.Category {
         this.localization = localization;
     }
 
-    public CategoryEvent() {
-        super();
-        this.id = ++incrementId;
+    public JSONObject getJSONObject() {
+        JSONObject categoryEvent = new JSONObject();
+        categoryEvent.put("id", this.id);
+        categoryEvent.put("title", this.title);
+        categoryEvent.put("message", this.message);
+        categoryEvent.put("address", this.address.getJSONObject());
+        categoryEvent.put("localization", this.localization.getJSONObject());
+        return categoryEvent;
     }
 }

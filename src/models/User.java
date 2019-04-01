@@ -1,13 +1,15 @@
 package models;
 
-public abstract class User {
+import org.json.simple.JSONObject;
+
+public class User {
     private static int incrementId = 0;
     private int id;
     private String username;
     private String password;
     private String first_name;
     private String last_name;
-    private ContactDetails contactDetails;
+    private ContactDetails contactDetails = new ContactDetails();
     private String role;
 
 
@@ -82,5 +84,17 @@ public abstract class User {
     @Override
     public String toString() {
         return "Username: " + getUsername() + '\n';
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject user = new JSONObject();
+        user.put("id", this.id);
+        user.put("username", this.username);
+        user.put("password", this.password);
+        user.put("first_name", this.first_name);
+        user.put("last_name", this.last_name);
+        user.put("contactDetails", this.contactDetails.getJSONObject());
+        user.put("role", this.role);
+        return user;
     }
 }

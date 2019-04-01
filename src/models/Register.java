@@ -1,38 +1,25 @@
 package models;
 
 import helpers.DataStorage;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
+import java.util.List;
 
 public class Register {
     private DataStorage dataStorage = DataStorage.getInstance();
-    private JSONArray users = dataStorage.getAllUsers();
-
+    private List<User> userList = dataStorage.getAllUsers();
     private boolean usernameNotExist(String username) {
-        for (Object user_obj : users) {
-            JSONObject user = (JSONObject) user_obj;
-            if (user.get("username").equals(username)) {
-                return false;
-            }
+        if (username.equals("bubo")) {
+            return false;
         }
         return true;
     }
 
-    public boolean registerUser(String username, String email, String password) {
+    public boolean register(String username, String password) {
         if (usernameNotExist(username)) {
-            JSONObject newUser = new JSONObject();
-            newUser.put("id", users.size() + 1);
-            newUser.put("username", username);
-            newUser.put("password", password);
-            newUser.put("first_name", "");
-            newUser.put("last_name", "");
-            newUser.put("adress", "");
-            newUser.put("email", email);
-            newUser.put("gender", "");
-            newUser.put("phone_number", "");
-            newUser.put("role", "citizen");
-            users.add(newUser);
-            dataStorage.saveJsonArray(users, "users");
+            User new_user = new AdminUser();
+            new_user.setUsername(username);
+            new_user.setPassword(password);
+            dataStorage.addUser(new_user);
             return true;
         }
         return false;

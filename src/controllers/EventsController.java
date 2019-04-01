@@ -45,9 +45,9 @@ public class EventsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        street_light_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("street_light"))));
-        potholes_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("pothole"))));
-        bajk_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("bajk"))));
-        graffiti_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("graffiti"))));
+//        street_light_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("street_light"))));
+//        potholes_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("pothole"))));
+//        bajk_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("bajk"))));
+//        graffiti_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("graffiti"))));
     }
 }

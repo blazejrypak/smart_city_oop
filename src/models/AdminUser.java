@@ -1,13 +1,12 @@
 package models;
 
 import helpers.DataStorage;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
+import java.util.List;
 
 public class AdminUser extends User {
     private static AdminUser adminUserInstance;
     private DataStorage dataStorage = DataStorage.getInstance();
-    private JSONArray usersObjects = dataStorage.getAllUsers();
 
     public AdminUser() {
         super();
@@ -21,13 +20,12 @@ public class AdminUser extends User {
     }
 
     private void deleteFromDataStorage(int id) {
-        for (Object obj: this.usersObjects) {
-            JSONObject user = (JSONObject) obj;
-            if (user.get("id").equals(id)) {
-                this.usersObjects.remove(user);
+        List<User> userList = dataStorage.getAllUsers();
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getId() == id) {
+                userList.remove(userList.get(i));
             }
         }
-        dataStorage.saveJsonArray(usersObjects, "users");
     }
 
     public void deleteUser(User user) {

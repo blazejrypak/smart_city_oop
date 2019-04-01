@@ -1,5 +1,6 @@
 package controllers;
 
+import authentification.Login;
 import helpers.DataStorage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.Login;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     private Login login = new Login();
+    DataStorage dataStorage = DataStorage.getInstance();
+
 
     @FXML
     private TextField username;
@@ -36,8 +38,10 @@ public class LoginController implements Initializable {
 
         username = this.username.getText();
         password = this.password.getText();
+        login.login(username, password);
 
-        if (login.login(username, password)) {
+        if (dataStorage.getLoggedInUser() != null) {
+            System.out.println("User logged in");
             Parent root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));
 
             Node node = (Node) event.getSource();
@@ -45,6 +49,8 @@ public class LoginController implements Initializable {
             Stage stage = (Stage) node.getScene().getWindow();
 
             stage.setScene(new Scene(root));
+        } else {
+            System.out.println("Wrong username or password");
         }
     }
 

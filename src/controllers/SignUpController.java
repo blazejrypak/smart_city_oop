@@ -48,7 +48,7 @@ public class SignUpController implements Initializable {
     @FXML
     void signup(MouseEvent event) {
         Register register = new Register();
-        if (register.registerUser(this.username.getText(), this.email.getText(), this.password.getText())) {
+        if (register.register(username.getText(), password.getText())) {
             alert.setText("Registration was successful :)");
         } else {
             alert.setText("Username is already used");
