@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     private Login login = new Login();
-    DataStorage dataStorage = DataStorage.getInstance();
+    private DataStorage dataStorage = DataStorage.getInstance();
 
 
     @FXML

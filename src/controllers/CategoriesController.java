@@ -6,13 +6,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import models.GeneralCategory;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class EventsController implements Initializable {
-    private DataStorage db = DataStorage.getInstance();
+public class CategoriesController implements Initializable {
+    private DataStorage dataStorage = DataStorage.getInstance();
 
     @FXML
     private static AnchorPane holderPane;
@@ -36,7 +37,7 @@ public class EventsController implements Initializable {
     private Label graffiti_count;
 
     public void setHolderPane(AnchorPane holderPane) {
-        EventsController.holderPane = holderPane;
+        CategoriesController.holderPane = holderPane;
     }
 
     @FXML
@@ -45,9 +46,10 @@ public class EventsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        street_light_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("street_light"))));
-//        potholes_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("pothole"))));
-//        bajk_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("bajk"))));
-//        graffiti_count.setText(Integer.toString(db.getNumberOfEvents(db.getEventType("graffiti"))));
+        ArrayList<GeneralCategory> generalCategories = dataStorage.getAllCategories();
+        System.out.println("List of categories");
+        for (GeneralCategory gc: generalCategories) {
+            System.out.println(gc.getType());
+        }
     }
 }

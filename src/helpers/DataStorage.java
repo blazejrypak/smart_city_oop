@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class DataStorage {
     private static DataStorage instance;
     private JSONParser parser = new JSONParser();
@@ -81,21 +82,12 @@ public class DataStorage {
     public void saveCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
         this.jsonArrayCategories.clear();
         for (GeneralCategory generalCategory: generalCategoryArrayList) {
-
-            JSONObject category = new JSONObject();
-            category.put("id", generalCategory.getId());
-            category.put("type", generalCategory.getType());
-            category.put("tittle", generalCategory.getTitle());
             JSONArray category_events = new JSONArray();
             for (CategoryEvent event: generalCategory.getCategoryEvents()) {
-                JSONObject categoryEvent = new JSONObject();
-                categoryEvent.put("id", event.getId());
-                categoryEvent.put("title", event.getTitle());
-                categoryEvent.put("message", event.getMessage());
-                category_events.add(categoryEvent);
+                category_events.add(event.getJSONObject());
             }
-            category.put("category_events", category_events);
-            this.jsonArrayCategories.add(category);
+            generalCategory.getJSONObject().put("category_events", category_events);
+            this.jsonArrayCategories.add(generalCategory.getJSONObject());
         }
         try (FileWriter file = new FileWriter(CATEGORIES)) {
 
@@ -113,13 +105,6 @@ public class DataStorage {
 
     private void saveUsers() {
         if (loggedInUser != null) {
-            JSONObject user = new JSONObject();
-            user.put("id", loggedInUser.getId());
-            user.put("username", loggedInUser.getUsername());
-            user.put("password", loggedInUser.getPassword());
-            user.put("first_name", loggedInUser.getFirst_name());
-            user.put("last_name", loggedInUser.getLast_name());
-            user.put("role", loggedInUser.getRole());
             for (Object obj: this.jsonArrayUsers) {
                 JSONObject usr = (JSONObject) obj;
                 if ((((Number) usr.get("id")).intValue()) == loggedInUser.getId()) {
@@ -127,7 +112,7 @@ public class DataStorage {
                     break;
                 }
             }
-            this.jsonArrayUsers.add(user);
+            this.jsonArrayUsers.add(loggedInUser.getJSONObject());
         }
         try (FileWriter file = new FileWriter(USERS)) {
 
@@ -140,14 +125,7 @@ public class DataStorage {
     }
 
     public void addUser(User user) {
-        JSONObject new_user = new JSONObject();
-        new_user.put("id", user.getId());
-        new_user.put("username", user.getUsername());
-        new_user.put("password", user.getPassword());
-        new_user.put("first_name", user.getFirst_name());
-        new_user.put("last_name", user.getLast_name());
-        new_user.put("role", user.getRole());
-        this.jsonArrayUsers.add(new_user);
+        this.jsonArrayUsers.add(user.getJSONObject());
 
         try (FileWriter file = new FileWriter(USERS)) {
 
