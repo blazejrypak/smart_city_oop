@@ -38,7 +38,12 @@
                         <Font name="Roboto Bold" size="14.0" />
                     </font>
                 </JFXButton>
-            <JFXButton fx:id="btnProfile1" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategory" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Add category" textFill="#a1aec4">
+            <JFXButton fx:id="btnAddCategory" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategory" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Add category" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnAddCategoryEvent" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategoryEvent" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Add category event" textFill="#a1aec4">
                <font>
                   <Font name="Roboto Bold" size="14.0" />
                </font>

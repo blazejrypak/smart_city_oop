@@ -71,6 +71,20 @@ public class DataStorage {
         return this.generalCategories;
     }
 
+    public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList){
+        this.generalCategories = generalCategoryArrayList;
+    }
+
+    public void updateCategories(GeneralCategory generalCategory){
+        for (GeneralCategory genCat: this.generalCategories) {
+            if (genCat.getId() == generalCategory.getId()) {
+                this.generalCategories.remove(genCat);
+                this.generalCategories.add(generalCategory);
+                break;
+            }
+        }
+    }
+
     private ArrayList<GeneralCategory> getAllCategories() {
         ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
         int category_increment_id = 0;
@@ -79,7 +93,7 @@ public class DataStorage {
             GeneralCategory cat = new GeneralCategory();
             cat.setId(((Number) category.get("id")).intValue());
             cat.setType((String) category.get("type"));
-            cat.setTitle((String) category.get("tittle"));
+            cat.setTitle((String) category.get("title"));
             categories.add(cat);
             if (((Number) category.get("id")).intValue() > category_increment_id) {
                 category_increment_id = ((Number) category.get("id")).intValue();
@@ -92,14 +106,18 @@ public class DataStorage {
     public void saveCategories() {
         this.jsonArrayCategories.clear();
         for (GeneralCategory generalCategory: this.generalCategories) {
+            JSONObject general_category_json_object = new JSONObject();
             if (generalCategory.getCategoryEvents() != null) {
                 JSONArray category_events = new JSONArray();
                 for (CategoryEvent event: generalCategory.getCategoryEvents()) {
+                    System.out.println("saving event: ");
+                    System.out.println(event.getTitle());
                     category_events.add(event.getJSONObject());
                 }
-                generalCategory.getJSONObject().put("category_events", category_events);
+                general_category_json_object = generalCategory.getJSONObject();
+                general_category_json_object.put("category_events", category_events);
             }
-            this.jsonArrayCategories.add(generalCategory.getJSONObject());
+            this.jsonArrayCategories.add(general_category_json_object);
         }
         try (FileWriter file = new FileWriter(CATEGORIES)) {
 

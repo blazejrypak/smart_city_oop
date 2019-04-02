@@ -1,1 +1,31 @@
-[{"id":1,"type":"bike","title":null},{"id":2,"type":"hole","title":"Hole"}]
+[
+  {
+    "id": 1,
+    "type": "bike",
+    "title": "bike",
+    "category_events": []
+  },
+  {
+    "id": 2,
+    "type": "hole",
+    "title": "hole",
+    "category_events": [
+      {
+        "localization": {
+          "latitude": 47.0001,
+          "longitude": 47.002
+        },
+        "address": {
+          "country": "SK",
+          "city": "name",
+          "postal_code": null,
+          "homeNumber": "898",
+          "street_name": "zaka"
+        },
+        "id": 1,
+        "title": "hole",
+        "message": "jano"
+      }
+    ]
+  }
+]
