@@ -14,14 +14,18 @@ public class CategoryEvent {
         this.title = title;
     }
 
-    private String title;
-    private String message;
+    private String title = "";
+    private String message = "";
     private Address address;
     private Localization localization;
 
     public CategoryEvent() {
         super();
         this.id = ++incrementId;
+    }
+
+    public static void setId_increment(int id_increment) {
+        CategoryEvent.incrementId = id_increment;
     }
 
     public int getId() {

@@ -3,8 +3,8 @@ package models;
 import org.json.simple.JSONObject;
 
 public class Localization {
-    private double latitude;
-    private double longitude;
+    private double latitude = 0;
+    private double longitude = 0;
 
     public double getLatitude() {
         return latitude;

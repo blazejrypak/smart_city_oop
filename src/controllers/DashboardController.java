@@ -20,6 +20,9 @@ import java.util.logging.Logger;
 public class DashboardController implements Initializable {
 
     @FXML
+    private JFXButton btnListOfCategoryEvents;
+
+    @FXML
     private JFXButton btnAddCategory;
 
     @FXML
@@ -37,7 +40,7 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXButton btnProfile;
 
-    private AnchorPane home, profiles, events, add_category, add_category_event;
+    private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events;
     @FXML
     private JFXButton btnControls;
 
@@ -50,6 +53,7 @@ public class DashboardController implements Initializable {
             events = FXMLLoader.load(getClass().getResource("/views/dashboard/Categories.fxml"));
             add_category = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategory.fxml"));
             add_category_event = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategoryEvent.fxml"));
+            list_of_category_events = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfCategoryEvents.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,5 +93,10 @@ public class DashboardController implements Initializable {
     @FXML
     private void switchAddCategoryEvent(ActionEvent event) {
         setNode(add_category_event);
+    }
+
+    @FXML
+    private void switchListOfCategoryEvents(ActionEvent event) {
+        setNode(list_of_category_events);
     }
 }

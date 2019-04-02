@@ -89,12 +89,46 @@ public class DataStorage {
         ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
         int category_increment_id = 0;
         for (Object jsonArrayCategory : this.jsonArrayCategories) {
+            int category_event_increment_id = 0;
             JSONObject category = (JSONObject) jsonArrayCategory;
             GeneralCategory cat = new GeneralCategory();
             cat.setId(((Number) category.get("id")).intValue());
             cat.setType((String) category.get("type"));
             cat.setTitle((String) category.get("title"));
+            ArrayList<CategoryEvent> categoryEvents = new ArrayList<>();
+            for (Object event: (JSONArray) category.get("category_events")) {
+                JSONObject json_event = (JSONObject) event;
+                CategoryEvent categoryEvent = new CategoryEvent();
+                categoryEvent.setTitle((String) json_event.get("title"));
+                categoryEvent.setMessage((String) json_event.get("message"));
+
+                Localization localization = new Localization();
+                JSONObject json_localization = (JSONObject) json_event.get("localization");
+                localization.setLatitude(((Number) json_localization.get("latitude")).doubleValue());
+                localization.setLatitude(((Number) json_localization.get("longitude")).doubleValue());
+
+                Address address = new Address();
+                JSONObject json_address = (JSONObject) json_event.get("address");
+                address.setCountry((String) json_address.get("country"));
+                address.setCity((String) json_address.get("city"));
+                address.setPostalCode((String) json_address.get("postal_code"));
+                address.setHomeNumber((String) json_address.get("homeNumber"));
+                address.setStreetName((String) json_address.get("street_name"));
+
+                categoryEvent.setLocalization(localization);
+                categoryEvent.setAddress(address);
+
+                categoryEvents.add(categoryEvent);
+
+                if (((Number) json_event.get("id")).intValue() > category_event_increment_id) {
+                    category_event_increment_id = ((Number) json_event.get("id")).intValue();
+                }
+                CategoryEvent.setId_increment(category_event_increment_id);
+            }
+
+            cat.setCategoryEvents(categoryEvents);
             categories.add(cat);
+
             if (((Number) category.get("id")).intValue() > category_increment_id) {
                 category_increment_id = ((Number) category.get("id")).intValue();
             }

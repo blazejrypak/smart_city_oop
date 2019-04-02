@@ -3,11 +3,11 @@ package models;
 import org.json.simple.JSONObject;
 
 public class Address {
-    private String country;
-    private String city;
-    private String postalCode;
-    private String StreetName;
-    private String homeNumber;
+    private String country = "";
+    private String city = "";
+    private String postalCode = "";
+    private String StreetName = "";
+    private String homeNumber = "";
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
