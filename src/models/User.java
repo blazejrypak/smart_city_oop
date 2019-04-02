@@ -93,7 +93,9 @@ public class User {
         user.put("password", this.password);
         user.put("first_name", this.first_name);
         user.put("last_name", this.last_name);
-        user.put("contactDetails", this.contactDetails.getJSONObject());
+        if (this.contactDetails != null) {
+            user.put("contactDetails", this.contactDetails.getJSONObject());
+        }
         user.put("role", this.role);
         return user;
     }

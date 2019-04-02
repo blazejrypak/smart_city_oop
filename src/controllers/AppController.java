@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class AppController extends Application {
-    DataStorage dataStorage = DataStorage.getInstance();
+    private DataStorage dataStorage = DataStorage.getInstance();
 
     @Override
     public void start(Stage stage) throws Exception {

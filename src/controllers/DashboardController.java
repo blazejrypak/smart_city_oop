@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -30,7 +31,7 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXButton btnProfile;
 
-    private AnchorPane home, profiles, events;
+    private AnchorPane home, profiles, events, add_category;
     @FXML
     private JFXButton btnControls;
 
@@ -40,7 +41,8 @@ public class DashboardController implements Initializable {
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
             profiles = FXMLLoader.load(getClass().getResource("/views/dashboard/Profiles.fxml"));
-            events = FXMLLoader.load(getClass().getResource("/views/dashboard/Events.fxml"));
+            events = FXMLLoader.load(getClass().getResource("/views/dashboard/Categories.fxml"));
+            add_category = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategory.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,7 +50,6 @@ public class DashboardController implements Initializable {
 
     }
 
-    //Set selected node to a content(holder panel) holder
     private void setNode(Node node) {
         holderPane.getChildren().clear();
         holderPane.getChildren().add(node);
@@ -65,10 +66,16 @@ public class DashboardController implements Initializable {
     @FXML
     private void switchEvents(ActionEvent event) {
         setNode(events);
+
     }
 
     @FXML
     private void switchProfile(ActionEvent event) {
         setNode(profiles);
+    }
+
+    @FXML
+    private void switchAddCategory(ActionEvent event) {
+        setNode(add_category);
     }
 }

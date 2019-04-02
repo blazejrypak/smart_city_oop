@@ -17,6 +17,7 @@ public class DataStorage {
     private JSONParser parser = new JSONParser();
     private JSONArray jsonArrayUsers;
     private JSONArray jsonArrayCategories;
+    private ArrayList<GeneralCategory> generalCategories = new ArrayList<>();
     private String USERS = "/home/bubko/IdeaProjects/SmartCityFinal/src/helpers/users";
     private String CATEGORIES = "/home/bubko/IdeaProjects/SmartCityFinal/src/helpers/categories";
 
@@ -33,11 +34,16 @@ public class DataStorage {
     private DataStorage() {
         loadUsers();
         loadCategories();
+        generalCategories = getAllCategories();
     }
 
     public void updateState() {
         saveUsers();
         loadUsers();
+    }
+
+    public void addCategory(GeneralCategory generalCategory) {
+        this.generalCategories.add(generalCategory);
     }
 
     public ArrayList<User> getAllUsers() {
@@ -61,7 +67,11 @@ public class DataStorage {
         return userList;
     }
 
-    public ArrayList<GeneralCategory> getAllCategories() {
+    public ArrayList<GeneralCategory> getGeneralCategories() {
+        return this.generalCategories;
+    }
+
+    private ArrayList<GeneralCategory> getAllCategories() {
         ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
         int category_increment_id = 0;
         for (Object jsonArrayCategory : this.jsonArrayCategories) {
@@ -79,14 +89,16 @@ public class DataStorage {
         return categories;
     }
 
-    public void saveCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
+    public void saveCategories() {
         this.jsonArrayCategories.clear();
-        for (GeneralCategory generalCategory: generalCategoryArrayList) {
-            JSONArray category_events = new JSONArray();
-            for (CategoryEvent event: generalCategory.getCategoryEvents()) {
-                category_events.add(event.getJSONObject());
+        for (GeneralCategory generalCategory: this.generalCategories) {
+            if (generalCategory.getCategoryEvents() != null) {
+                JSONArray category_events = new JSONArray();
+                for (CategoryEvent event: generalCategory.getCategoryEvents()) {
+                    category_events.add(event.getJSONObject());
+                }
+                generalCategory.getJSONObject().put("category_events", category_events);
             }
-            generalCategory.getJSONObject().put("category_events", category_events);
             this.jsonArrayCategories.add(generalCategory.getJSONObject());
         }
         try (FileWriter file = new FileWriter(CATEGORIES)) {
@@ -101,6 +113,7 @@ public class DataStorage {
 
     public void saveData() {
         saveUsers();
+        saveCategories();
     }
 
     private void saveUsers() {
