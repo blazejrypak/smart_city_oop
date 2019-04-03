@@ -1,10 +1,42 @@
 package models;
 
+import helpers.NotificationManager;
 import org.json.simple.JSONObject;
 
 public class CategoryEvent {
     private static int incrementId = 0;
     private int id;
+
+    private NotificationManager notificationManager = new NotificationManager();
+
+    public void addSubscriber(String eventType, AdminUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void addSubscriber(String eventType, OfficeUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void addSubscriber(String eventType, ClientUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, AdminUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, OfficeUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, ClientUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+
+    public void notify(String eventType, CategoryEvent categoryEvent) {
+        notificationManager.notify(eventType, categoryEvent);
+    }
 
     public String getTitle() {
         return title;

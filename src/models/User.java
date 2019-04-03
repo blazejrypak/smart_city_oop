@@ -1,8 +1,9 @@
 package models;
 
+import helpers.NotificationListeners;
 import org.json.simple.JSONObject;
 
-public class User {
+public class User implements NotificationListeners {
     private static int incrementId = 0;
     private int id;
     private String username;
@@ -98,5 +99,24 @@ public class User {
         }
         user.put("role", this.role);
         return user;
+    }
+
+    public void populate(JSONObject user) {
+        setId(((Number) user.get("id")).intValue());
+        setUsername((String) user.get("username"));
+        setPassword((String) user.get("password"));
+        setFirst_name((String) user.get("first_name"));
+        setLast_name((String) user.get("last_name"));
+        ContactDetails contactDetails = new ContactDetails();
+        contactDetails.setEmail((String) user.get("email"));
+        contactDetails.setGender((String) user.get("gender"));
+        contactDetails.setPhone_number((String) user.get("phone_number"));
+        setContactDetails(contactDetails);
+        setRole((String) user.get("role"));
+    }
+
+    @Override
+    public void update(Object object) {
+        System.out.println("update notification User class");
     }
 }

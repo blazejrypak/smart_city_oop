@@ -12,10 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.Address;
-import models.CategoryEvent;
-import models.GeneralCategory;
-import models.Localization;
+import models.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -74,25 +71,12 @@ public class AddCategoryEventController implements Initializable {
         localization.setLongitude(47.002);
         categoryEvent.setLocalization(localization);
         categoryEvent.setMessage(this.id_message.getText());
+        for (AdminUser adminUser: dataStorage.getAllUsers(AdminUser.class, "admin")){
+            categoryEvent.addSubscriber("new_category_event", adminUser);
+        }
         generalCategory.addCategoryEvent(categoryEvent);
+        categoryEvent.notify("new_category_event", categoryEvent);
         dataStorage.updateCategories(generalCategory);
-        for (CategoryEvent categoryEvent1 : generalCategory.getCategoryEvents()) {
-            System.out.println(categoryEvent1.getTitle());
-            System.out.println(categoryEvent1.getAddress().getCity());
-            System.out.println(categoryEvent1.getAddress().getStreetName());
-            System.out.println(categoryEvent1.getAddress().getHomeNumber());
-            System.out.println(categoryEvent1.getMessage());
-        }
-        System.out.println("--------------");
-        for (GeneralCategory generalCategory1 : dataStorage.getGeneralCategories()) {
-            for (CategoryEvent categoryEvent1 : generalCategory1.getCategoryEvents()) {
-                System.out.println(categoryEvent1.getTitle());
-                System.out.println(categoryEvent1.getAddress().getCity());
-                System.out.println(categoryEvent1.getAddress().getStreetName());
-                System.out.println(categoryEvent1.getAddress().getHomeNumber());
-                System.out.println(categoryEvent1.getMessage());
-            }
-        }
 
         Parent root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));
 

@@ -2,11 +2,12 @@ package models;
 
 import helpers.DataStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Register {
     private DataStorage dataStorage = DataStorage.getInstance();
-    private List<User> userList = dataStorage.getAllUsers();
+    private ArrayList<User> userList = dataStorage.getAllUsers(User.class, "");
     private boolean usernameNotExist(String username) {
         if (username.equals("bubo")) {
             return false;

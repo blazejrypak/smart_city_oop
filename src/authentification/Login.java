@@ -4,10 +4,11 @@ import helpers.DataStorage;
 import models.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Login {
     private DataStorage dataStorage = DataStorage.getInstance();
-    private ArrayList<User> userList = dataStorage.getAllUsers();
+    private ArrayList<User> userList = dataStorage.getAllUsers(User.class, "");
 
     public void login(String username, String password) {
         for (User user : userList) {

@@ -10,8 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import models.CategoryEvent;
-import models.GeneralCategory;
+import models.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -59,6 +58,14 @@ public class ListOfCategoryEvents implements Initializable {
             }
         }
         return null;
+    }
+
+    private void changeState(ActionEvent actionEvent) {
+        CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
+        for (User user: dataStorage.getAllUsers(ClientUser.class, "client")){
+            categoryEvent.addSubscriber("new_state", (ClientUser) user);
+        }
+        categoryEvent.notify("new_state", categoryEvent);
     }
 
     @FXML

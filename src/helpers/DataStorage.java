@@ -6,10 +6,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DataStorage {
@@ -46,27 +48,40 @@ public class DataStorage {
         this.generalCategories.add(generalCategory);
     }
 
-    public ArrayList<User> getAllUsers() {
-        ArrayList<User> userList = new ArrayList<User>();
+    public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
+        boolean allUsers = false;
+        if (role.equals("")) {
+            allUsers = true;
+        }
+        ArrayList<T> list = new ArrayList<T>();
         for (Object jsonArrayUser : this.jsonArrayUsers) {
             JSONObject user = (JSONObject) jsonArrayUser;
-            User usr = new User();
-            usr.setId(((Number) user.get("id")).intValue());
-            usr.setUsername((String) user.get("username"));
-            usr.setPassword((String) user.get("password"));
-            usr.setFirst_name((String) user.get("first_name"));
-            usr.setLast_name((String) user.get("last_name"));
-            ContactDetails contactDetails = new ContactDetails();
-            contactDetails.setEmail((String) user.get("email"));
-            contactDetails.setGender((String) user.get("gender"));
-            contactDetails.setPhone_number((String) user.get("phone_number"));
-            usr.setContactDetails(contactDetails);
-            usr.setRole((String) user.get("role"));
-            userList.add(usr);
+            if ((user.get("role")).equals(role) || allUsers) {
+                if (user.get("role").equals("admin")) {
+                    AdminUser adminUser = new AdminUser();
+                    adminUser.populate(user);
+                    T t = c.cast(adminUser);
+                    list.add(t);
+                } else if (user.get("role").equals("client")) {
+                    ClientUser clientUser = new ClientUser();
+                    clientUser.populate(user);
+                    T t = c.cast(clientUser);
+                    list.add(t);
+                } else if (user.get("role").equals("office")) {
+                    OfficeUser officeUser = new OfficeUser();
+                    officeUser.populate(user);
+                    T t = c.cast(officeUser);
+                    list.add(t);
+                } else {
+                    User superUser = new User();
+                    superUser.populate(user);
+                    T t = c.cast(superUser);
+                    list.add(t);
+                }
+            }
         }
-        return userList;
+        return list;
     }
-
     public ArrayList<GeneralCategory> getGeneralCategories() {
         return this.generalCategories;
     }

@@ -20,7 +20,7 @@ public class AdminUser extends User {
     }
 
     private void deleteFromDataStorage(int id) {
-        List<User> userList = dataStorage.getAllUsers();
+        List<User> userList = dataStorage.getAllUsers(User.class, "");
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getId() == id) {
                 userList.remove(userList.get(i));
@@ -31,4 +31,8 @@ public class AdminUser extends User {
     public void deleteUser(User user) {
         deleteFromDataStorage(user.getId());
     }
+
+
+
+
 }
