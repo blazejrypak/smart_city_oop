@@ -71,8 +71,9 @@ public class AddCategoryEventController implements Initializable {
         localization.setLongitude(47.002);
         categoryEvent.setLocalization(localization);
         categoryEvent.setMessage(this.id_message.getText());
-        for (AdminUser adminUser: dataStorage.getAllUsers(AdminUser.class, "admin")){
-            categoryEvent.addSubscriber("new_category_event", adminUser);
+        categoryEvent.setState("to_do");
+        for (OfficeUser officeUser: dataStorage.getAllUsers(OfficeUser.class, "officer")){
+            categoryEvent.addSubscriber("new_category_event", officeUser);
         }
         generalCategory.addCategoryEvent(categoryEvent);
         categoryEvent.notify("new_category_event", categoryEvent);

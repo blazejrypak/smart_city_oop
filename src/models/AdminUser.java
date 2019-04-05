@@ -2,21 +2,14 @@ package models;
 
 import helpers.DataStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminUser extends User {
-    private static AdminUser adminUserInstance;
     private DataStorage dataStorage = DataStorage.getInstance();
 
     public AdminUser() {
         super();
-    }
-
-    public AdminUser getAdminUserInstance() {
-        if (adminUserInstance == null) {
-            adminUserInstance = new AdminUser();
-        }
-        return adminUserInstance;
     }
 
     private void deleteFromDataStorage(int id) {
@@ -32,7 +25,21 @@ public class AdminUser extends User {
         deleteFromDataStorage(user.getId());
     }
 
-
+    @Override
+    public void update(Object object) {
+        CategoryEvent categoryEvent = (CategoryEvent) object;
+        ArrayList<User> users = dataStorage.getAllUsers(User.class, "");
+        for (User user: users) {
+            if (user.getRole().equals("admin") && this.getId() == user.getId()) {
+                System.out.println("adding notification to user " + user.getUsername());
+                user.addNotification(categoryEvent.getTitle() + " " + categoryEvent.getMessage());
+                if (user.getId() == dataStorage.getLoggedInUser().getId()) {
+                    dataStorage.setLoggedInUser(user); // update loggedInUser with notifications
+                }
+            }
+        }
+        dataStorage.updateUsersData(users);
+    }
 
 
 }

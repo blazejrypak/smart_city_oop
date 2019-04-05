@@ -1,7 +1,10 @@
 package models;
 
 import helpers.NotificationListeners;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
 
 public class User implements NotificationListeners {
     private static int incrementId = 0;
@@ -12,6 +15,8 @@ public class User implements NotificationListeners {
     private String last_name;
     private ContactDetails contactDetails = new ContactDetails();
     private String role;
+
+    private ArrayList<String> notifications = new ArrayList<>();
 
 
     public User() {
@@ -87,6 +92,12 @@ public class User implements NotificationListeners {
         return "Username: " + getUsername() + '\n';
     }
 
+    private JSONArray getNotificationsJsonArray() {
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.addAll(this.notifications);
+        return jsonArray;
+    }
+
     public JSONObject getJSONObject() {
         JSONObject user = new JSONObject();
         user.put("id", this.id);
@@ -94,6 +105,7 @@ public class User implements NotificationListeners {
         user.put("password", this.password);
         user.put("first_name", this.first_name);
         user.put("last_name", this.last_name);
+        user.put("notifications", getNotificationsJsonArray());
         if (this.contactDetails != null) {
             user.put("contactDetails", this.contactDetails.getJSONObject());
         }
@@ -113,10 +125,22 @@ public class User implements NotificationListeners {
         contactDetails.setPhone_number((String) user.get("phone_number"));
         setContactDetails(contactDetails);
         setRole((String) user.get("role"));
+        JSONArray jsonArrayNotifications = (JSONArray) user.get("notifications");
+        for (Object object: jsonArrayNotifications) {
+            this.notifications.add((String) object);
+        }
+    }
+
+    public ArrayList<String> getAllNotifications() {
+        return notifications;
+    }
+
+    public void addNotification(String notification) {
+        this.notifications.add(notification);
     }
 
     @Override
     public void update(Object object) {
-        System.out.println("update notification User class");
+
     }
 }

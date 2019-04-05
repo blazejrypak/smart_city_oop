@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
         login.login(username, password);
 
         if (dataStorage.getLoggedInUser() != null) {
-            System.out.println("User logged in");
+            System.out.println("Successful logged in");
             Parent root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));
 
             Node node = (Node) event.getSource();

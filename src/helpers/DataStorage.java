@@ -48,6 +48,13 @@ public class DataStorage {
         this.generalCategories.add(generalCategory);
     }
 
+    public void updateUsersData(ArrayList<User> users) {
+        this.jsonArrayUsers.clear();
+        for (User user: users) {
+            this.jsonArrayUsers.add(user.getJSONObject());
+        }
+    }
+
     public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
         boolean allUsers = false;
         if (role.equals("")) {
@@ -67,7 +74,7 @@ public class DataStorage {
                     clientUser.populate(user);
                     T t = c.cast(clientUser);
                     list.add(t);
-                } else if (user.get("role").equals("office")) {
+                } else if (user.get("role").equals("officer")) {
                     OfficeUser officeUser = new OfficeUser();
                     officeUser.populate(user);
                     T t = c.cast(officeUser);
@@ -159,8 +166,6 @@ public class DataStorage {
             if (generalCategory.getCategoryEvents() != null) {
                 JSONArray category_events = new JSONArray();
                 for (CategoryEvent event: generalCategory.getCategoryEvents()) {
-                    System.out.println("saving event: ");
-                    System.out.println(event.getTitle());
                     category_events.add(event.getJSONObject());
                 }
                 general_category_json_object = generalCategory.getJSONObject();

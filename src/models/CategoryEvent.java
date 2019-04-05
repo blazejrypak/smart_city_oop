@@ -48,6 +48,16 @@ public class CategoryEvent {
 
     private String title = "";
     private String message = "";
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    private String state = "";
     private Address address;
     private Localization localization;
 
@@ -93,6 +103,7 @@ public class CategoryEvent {
         categoryEvent.put("id", this.id);
         categoryEvent.put("title", this.title);
         categoryEvent.put("message", this.message);
+        categoryEvent.put("state", this.state);
         categoryEvent.put("address", this.address.getJSONObject());
         categoryEvent.put("localization", this.localization.getJSONObject());
         return categoryEvent;

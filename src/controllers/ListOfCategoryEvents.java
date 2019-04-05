@@ -4,14 +4,23 @@ import helpers.DataStorage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.*;
 
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +91,31 @@ public class ListOfCategoryEvents implements Initializable {
                 category.getChildren().add(generateVBox(600, 200, spacing, "id_title", categoryEvent.getTitle()));
                 category.getChildren().add(generateVBox(prefHeight, 400, spacing, "id_message", categoryEvent.getMessage()));
                 category.getChildren().add(generateVBox(prefHeight, 300, spacing, "id_address", categoryEvent.getAddress().getStreetName()));
+                Button details = new Button("Details");
+                details.setOnAction(e -> CategoryEventDetails(e));
+                category.getChildren().add(details);
                 id_vbox_container.getChildren().add(category);
             }
         }
+    }
+
+    private void CategoryEventDetails(ActionEvent event) {
+        Parent root = null;
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
+//            AnchorPane anchorPane = loader.load();
+//            CategoryEventDetailsController categoryEventDetailsController = loader.getController();
+//            categoryEventDetailsController.setCategoryEventID(event.getPickResult().getIntersectedNode().getId());
+//            eventsPaneController.setHolderPane(this.holderPane);
+//            root = FXMLLoader.load(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
+//            Node node = (Node) event.getSource();
+//
+//            Stage stage = (Stage) node.getScene().getWindow();
+//
+//            stage.setScene(new Scene(root));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 }
