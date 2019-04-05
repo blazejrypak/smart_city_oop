@@ -1,13 +1,15 @@
 package models;
 
-public class Address {
-    private int postalCode;
-    private String country;
-    private String city;
-    private String StreetName;
-    private String homeNumber;
+import org.json.simple.JSONObject;
 
-    public void setPostalCode(int postalCode) {
+public class Address {
+    private String country = "";
+    private String city = "";
+    private String postalCode = "";
+    private String StreetName = "";
+    private String homeNumber = "";
+
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -27,7 +29,7 @@ public class Address {
         this.homeNumber = homeNumber;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
@@ -45,5 +47,15 @@ public class Address {
 
     public String getHomeNumber() {
         return homeNumber;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject address = new JSONObject();
+        address.put("country", this.country);
+        address.put("city", this.city);
+        address.put("postal_code", this.postalCode);
+        address.put("street_name", this.StreetName);
+        address.put("homeNumber", this.homeNumber);
+        return address;
     }
 }

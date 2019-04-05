@@ -28,18 +28,36 @@
                         <Font name="Roboto Bold" size="14.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="btnEvents" layoutX="10.0" layoutY="151.0" onAction="#switchEvents" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;"
-                           text="Events" textFill="#a1aec4">
+                <JFXButton fx:id="btnEvents" layoutX="10.0" layoutY="151.0" onAction="#switchEvents" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Events" textFill="#a1aec4">
                     <font>
                         <Font name="Roboto Bold" size="14.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="btnProfile" layoutX="10.0" layoutY="193.0" onAction="#switchProfile" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;"
-                           text="Profile" textFill="#a1aec4">
+                <JFXButton fx:id="btnProfile" layoutX="10.0" layoutY="193.0" onAction="#switchProfile" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Profile" textFill="#a1aec4">
                     <font>
                         <Font name="Roboto Bold" size="14.0" />
                     </font>
                 </JFXButton>
+            <JFXButton fx:id="btnAddCategory" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategory" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Add category" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnAddCategoryEvent" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategoryEvent" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Add category event" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnListOfCategoryEvents" layoutX="10.0" layoutY="154.0" onAction="#switchListOfCategoryEvents" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="List of category events" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnNotifications" layoutX="10.0" layoutY="154.0" onAction="#switchNotifications" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: left;" text="Notifications" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
             </children>
         </VBox>
         <AnchorPane fx:id="holderPane" layoutX="140.0" layoutY="42.0" prefHeight="713.0" prefWidth="1219.0" />

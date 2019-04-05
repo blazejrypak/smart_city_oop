@@ -1,28 +1,77 @@
 package models;
 
-public class CategoryEvent extends models.Category {
+import helpers.NotificationManager;
+import org.json.simple.JSONObject;
+
+public class CategoryEvent {
     private static int incrementId = 0;
     private int id;
-    private String message;
+
+    private NotificationManager notificationManager = new NotificationManager();
+
+    public void addSubscriber(String eventType, AdminUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void addSubscriber(String eventType, OfficeUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void addSubscriber(String eventType, ClientUser listener) {
+        notificationManager.subscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, AdminUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, OfficeUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+    public void removeSubscriber(Object eventType, ClientUser listener) {
+        notificationManager.unsubscribe(eventType, listener);
+    }
+
+
+    public void notify(String eventType, CategoryEvent categoryEvent) {
+        notificationManager.notify(eventType, categoryEvent);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title = "";
+    private String message = "";
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    private String state = "";
     private Address address;
     private Localization localization;
 
-    public static int getIncrementId() {
-        return incrementId;
+    public CategoryEvent() {
+        super();
+        this.id = ++incrementId;
     }
 
-    public static void setIncrementId(int incrementId) {
-        CategoryEvent.incrementId = incrementId;
+    public static void setId_increment(int id_increment) {
+        CategoryEvent.incrementId = id_increment;
     }
 
-    @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMessage() {
@@ -49,8 +98,14 @@ public class CategoryEvent extends models.Category {
         this.localization = localization;
     }
 
-    public CategoryEvent() {
-        super();
-        this.id = ++incrementId;
+    public JSONObject getJSONObject() {
+        JSONObject categoryEvent = new JSONObject();
+        categoryEvent.put("id", this.id);
+        categoryEvent.put("title", this.title);
+        categoryEvent.put("message", this.message);
+        categoryEvent.put("state", this.state);
+        categoryEvent.put("address", this.address.getJSONObject());
+        categoryEvent.put("localization", this.localization.getJSONObject());
+        return categoryEvent;
     }
 }

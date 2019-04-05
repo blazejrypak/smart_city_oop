@@ -1,107 +1,224 @@
 package helpers;
 
-import models.User;
+import models.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
+import javax.jws.soap.SOAPBinding;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 public class DataStorage {
     private static DataStorage instance;
     private JSONParser parser = new JSONParser();
     private JSONArray jsonArrayUsers;
-    private JSONArray jsonArrayCurrentEvents;
-    private String USERS = "/home/bubko/IdeaProjects/SmartCity/src/helpers/users.json";
-    private String CURRENT_EVENTS = "/home/bubko/IdeaProjects/SmartCity/src/helpers/current_events.json";
+    private JSONArray jsonArrayCategories;
+    private ArrayList<GeneralCategory> generalCategories = new ArrayList<>();
+    private String USERS = "/home/bubko/IdeaProjects/SmartCityFinal/src/helpers/users";
+    private String CATEGORIES = "/home/bubko/IdeaProjects/SmartCityFinal/src/helpers/categories";
 
-    private Map<String, String> eventTypes = new HashMap<>();
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    private User loggedInUser;
 
     private DataStorage() {
-        eventTypes.put("street_light", "street_light");
-        eventTypes.put("pothole", "pothole");
-        eventTypes.put("bajk", "bajk");
-        eventTypes.put("graffiti", "graffiti");
-        updateState();
-    }
-
-    public String getEventType(String key) {
-        return this.eventTypes.get(key);
-    }
-
-    private void updateState() {
         loadUsers();
-        loadCurrentEvents();
+        loadCategories();
+        generalCategories = getAllCategories();
     }
 
-    private void loadCurrentEvents() {
-        try {
+    public void updateState() {
+        saveUsers();
+        loadUsers();
+    }
 
-            Object obj = parser.parse(new FileReader(CURRENT_EVENTS));
+    public void addCategory(GeneralCategory generalCategory) {
+        this.generalCategories.add(generalCategory);
+    }
 
-            this.jsonArrayCurrentEvents = (JSONArray) obj;
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+    public void updateUsersData(ArrayList<User> users) {
+        this.jsonArrayUsers.clear();
+        for (User user: users) {
+            this.jsonArrayUsers.add(user.getJSONObject());
         }
     }
 
-    public JSONArray getAllUsers() {
-        return this.jsonArrayUsers;
-    }
-
-    public JSONArray getEventsOfType(String type) {
-        JSONArray events = new JSONArray();
-        for (Object jsonArrayCurrentEvent : jsonArrayCurrentEvents) {
-            JSONObject obj = (JSONObject) jsonArrayCurrentEvent;
-            if (obj.get("type").equals(getEventType(type))) {
-                events.add(obj);
+    public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
+        boolean allUsers = false;
+        if (role.equals("")) {
+            allUsers = true;
+        }
+        ArrayList<T> list = new ArrayList<T>();
+        for (Object jsonArrayUser : this.jsonArrayUsers) {
+            JSONObject user = (JSONObject) jsonArrayUser;
+            if ((user.get("role")).equals(role) || allUsers) {
+                if (user.get("role").equals("admin")) {
+                    AdminUser adminUser = new AdminUser();
+                    adminUser.populate(user);
+                    T t = c.cast(adminUser);
+                    list.add(t);
+                } else if (user.get("role").equals("client")) {
+                    ClientUser clientUser = new ClientUser();
+                    clientUser.populate(user);
+                    T t = c.cast(clientUser);
+                    list.add(t);
+                } else if (user.get("role").equals("officer")) {
+                    OfficeUser officeUser = new OfficeUser();
+                    officeUser.populate(user);
+                    T t = c.cast(officeUser);
+                    list.add(t);
+                } else {
+                    User superUser = new User();
+                    superUser.populate(user);
+                    T t = c.cast(superUser);
+                    list.add(t);
+                }
             }
         }
-        return events;
+        return list;
+    }
+    public ArrayList<GeneralCategory> getGeneralCategories() {
+        return this.generalCategories;
     }
 
-    public int getNumberOfEvents(String type) {
-        int count = 0;
-        for (Object jsonArrayCurrentEvent : jsonArrayCurrentEvents) {
-            JSONObject item = new JSONObject();
-            item = (JSONObject) jsonArrayCurrentEvent;
-            if (item.get("type").equals(getEventType(type))) {
-                count++;
+    public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList){
+        this.generalCategories = generalCategoryArrayList;
+    }
+
+    public void updateCategories(GeneralCategory generalCategory){
+        for (GeneralCategory genCat: this.generalCategories) {
+            if (genCat.getId() == generalCategory.getId()) {
+                this.generalCategories.remove(genCat);
+                this.generalCategories.add(generalCategory);
+                break;
             }
         }
-        return count;
     }
 
-    public void createEvent(String type) {
-        JSONObject newEvent = new JSONObject();
-        newEvent.put("type", getEventType(type));
-        jsonArrayCurrentEvents.add(newEvent);
-        try (FileWriter file = new FileWriter(CURRENT_EVENTS)) {
+    private ArrayList<GeneralCategory> getAllCategories() {
+        ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
+        int category_increment_id = 0;
+        for (Object jsonArrayCategory : this.jsonArrayCategories) {
+            int category_event_increment_id = 0;
+            JSONObject category = (JSONObject) jsonArrayCategory;
+            GeneralCategory cat = new GeneralCategory();
+            cat.setId(((Number) category.get("id")).intValue());
+            cat.setType((String) category.get("type"));
+            cat.setTitle((String) category.get("title"));
+            ArrayList<CategoryEvent> categoryEvents = new ArrayList<>();
+            for (Object event: (JSONArray) category.get("category_events")) {
+                JSONObject json_event = (JSONObject) event;
+                CategoryEvent categoryEvent = new CategoryEvent();
+                categoryEvent.setTitle((String) json_event.get("title"));
+                categoryEvent.setMessage((String) json_event.get("message"));
 
-            file.write(jsonArrayCurrentEvents.toJSONString());
+                Localization localization = new Localization();
+                JSONObject json_localization = (JSONObject) json_event.get("localization");
+                localization.setLatitude(((Number) json_localization.get("latitude")).doubleValue());
+                localization.setLatitude(((Number) json_localization.get("longitude")).doubleValue());
+
+                Address address = new Address();
+                JSONObject json_address = (JSONObject) json_event.get("address");
+                address.setCountry((String) json_address.get("country"));
+                address.setCity((String) json_address.get("city"));
+                address.setPostalCode((String) json_address.get("postal_code"));
+                address.setHomeNumber((String) json_address.get("homeNumber"));
+                address.setStreetName((String) json_address.get("street_name"));
+
+                categoryEvent.setLocalization(localization);
+                categoryEvent.setAddress(address);
+
+                categoryEvents.add(categoryEvent);
+
+                if (((Number) json_event.get("id")).intValue() > category_event_increment_id) {
+                    category_event_increment_id = ((Number) json_event.get("id")).intValue();
+                }
+                CategoryEvent.setId_increment(category_event_increment_id);
+            }
+
+            cat.setCategoryEvents(categoryEvents);
+            categories.add(cat);
+
+            if (((Number) category.get("id")).intValue() > category_increment_id) {
+                category_increment_id = ((Number) category.get("id")).intValue();
+            }
+            GeneralCategory.setId_increment(category_increment_id);
+        }
+        return categories;
+    }
+
+    public void saveCategories() {
+        this.jsonArrayCategories.clear();
+        for (GeneralCategory generalCategory: this.generalCategories) {
+            JSONObject general_category_json_object = new JSONObject();
+            if (generalCategory.getCategoryEvents() != null) {
+                JSONArray category_events = new JSONArray();
+                for (CategoryEvent event: generalCategory.getCategoryEvents()) {
+                    category_events.add(event.getJSONObject());
+                }
+                general_category_json_object = generalCategory.getJSONObject();
+                general_category_json_object.put("category_events", category_events);
+            }
+            this.jsonArrayCategories.add(general_category_json_object);
+        }
+        try (FileWriter file = new FileWriter(CATEGORIES)) {
+
+            file.write(this.jsonArrayCategories.toJSONString());
             file.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        updateState();
     }
 
-    private void deleteEvent(int id) {
-        JSONObject item_to_del = new JSONObject();
-        for (int i = 0; i < jsonArrayCurrentEvents.size(); i++) {
-            item_to_del = (JSONObject) jsonArrayCurrentEvents.get(i);
-            if (item_to_del.get("id").equals(id)) {
-                jsonArrayCurrentEvents.remove(item_to_del);
+    public void saveData() {
+        saveUsers();
+        saveCategories();
+    }
+
+    private void saveUsers() {
+        if (loggedInUser != null) {
+            for (Object obj: this.jsonArrayUsers) {
+                JSONObject usr = (JSONObject) obj;
+                if ((((Number) usr.get("id")).intValue()) == loggedInUser.getId()) {
+                    this.jsonArrayUsers.remove(usr);
+                    break;
+                }
             }
+            this.jsonArrayUsers.add(loggedInUser.getJSONObject());
+        }
+        try (FileWriter file = new FileWriter(USERS)) {
+
+            file.write(this.jsonArrayUsers.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUser(User user) {
+        this.jsonArrayUsers.add(user.getJSONObject());
+
+        try (FileWriter file = new FileWriter(USERS)) {
+
+            file.write(this.jsonArrayUsers.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -117,65 +234,22 @@ public class DataStorage {
         }
     }
 
+    private void loadCategories() {
+        try {
+
+            Object obj = parser.parse(new FileReader(CATEGORIES));
+
+            this.jsonArrayCategories = (JSONArray) obj;
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static DataStorage getInstance() {
         if (instance == null) {
             instance = new DataStorage();
         }
         return instance;
-    }
-
-    public void registerUser(String username, String email, String password) {
-        JSONObject newUser = new JSONObject();
-        newUser.put("id", jsonArrayUsers.size() + 1);
-        newUser.put("username", username);
-        newUser.put("password", password);
-        newUser.put("first_name", "");
-        newUser.put("last_name", "");
-        newUser.put("adress", "");
-        newUser.put("email", email);
-        newUser.put("gender", "");
-        newUser.put("phone_number", "");
-        newUser.put("role", "client");
-        jsonArrayUsers.add(newUser);
-        try (FileWriter file = new FileWriter(USERS)) {
-
-            file.write(jsonArrayUsers.toJSONString());
-            file.flush();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        updateState();
-    }
-
-    public boolean existUsername(String username) {
-        for (Object jsonArrayUser : this.jsonArrayUsers) {
-            JSONObject user = (JSONObject) jsonArrayUser;
-            if (user.get("username").equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean existUser(String username, String password) {
-        for (Object jsonArrayUser : this.jsonArrayUsers) {
-            JSONObject user = (JSONObject) jsonArrayUser;
-            if (user.get("username").equals(username) && user.get("password").equals(password)) {
-//                User usr = User.getInstance();
-//                usr.setId(((Number) user.get("id")).intValue());
-//                usr.setUsername((String) user.get("username"));
-//                usr.setPassword((String) user.get("password"));
-//                usr.setFirst_name((String) user.get("first_name"));
-//                usr.setLast_name((String) user.get("last_name"));
-//                usr.setAddress((String) user.get("adress"));
-//                usr.setEmail((String) user.get("email"));
-//                usr.setGender((String) user.get("gender"));
-//                usr.setPhone_number((String) user.get("phone_number"));
-//                usr.setRole((String) user.get("role"));
-                return true;
-            }
-        }
-        return false;
     }
 }

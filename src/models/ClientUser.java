@@ -1,38 +1,26 @@
 package models;
 
 import helpers.DataStorage;
+import helpers.NotificationListeners;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class AdminUser extends User {
+public class ClientUser extends User implements NotificationListeners {
     private DataStorage dataStorage = DataStorage.getInstance();
-
-    public AdminUser() {
-        super();
-    }
-
-    private void deleteFromDataStorage(int id) {
-        List<User> userList = dataStorage.getAllUsers(User.class, "");
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getId() == id) {
-                userList.remove(userList.get(i));
-            }
-        }
-    }
-
-    public void deleteUser(User user) {
-        deleteFromDataStorage(user.getId());
-    }
+    ArrayList<CategoryEvent> notifications = new ArrayList<CategoryEvent>();
 
     @Override
     public void update(Object object) {
         CategoryEvent categoryEvent = (CategoryEvent) object;
         ArrayList<User> users = dataStorage.getAllUsers(User.class, "");
         for (User user: users) {
-            if (user.getRole().equals("admin") && this.getId() == user.getId()) {
+            if (user.getRole().equals("client") && this.getId() == user.getId()) {
                 System.out.println("adding notification to user " + user.getUsername());
-                user.addNotification(categoryEvent.getTitle() + " " + categoryEvent.getMessage());
+                if (categoryEvent.getState().equals("in_progress")) {
+                    user.addNotification("Your suggestion is in a state of solution.");
+                } else if (categoryEvent.getState().equals("done")) {
+                    user.addNotification("Your suggestion has been made.");
+                }
                 if (user.getId() == dataStorage.getLoggedInUser().getId()) {
                     dataStorage.setLoggedInUser(user); // update loggedInUser with notifications
                 }
@@ -40,6 +28,4 @@ public class AdminUser extends User {
         }
         dataStorage.updateUsersData(users);
     }
-
-
 }

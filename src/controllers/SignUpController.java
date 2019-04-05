@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Register;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,17 +47,11 @@ public class SignUpController implements Initializable {
 
     @FXML
     void signup(MouseEvent event) {
-        DataStorage db = DataStorage.getInstance();
-        if (db.existUsername(this.username.getText())) {
-            alert.setText("Username is already used");
+        Register register = new Register();
+        if (register.register(username.getText(), password.getText())) {
+            alert.setText("Registration was successful :)");
         } else {
-            db.registerUser(this.username.getText(), this.email.getText(), this.password.getText());
-            alert.setText("");
-            try {
-                login(event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            alert.setText("Username is already used");
         }
     }
 

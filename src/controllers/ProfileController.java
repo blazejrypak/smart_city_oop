@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.DataStorage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -10,6 +11,7 @@ import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
     private User user;
+    private DataStorage dataStorage = DataStorage.getInstance();
 
     @FXML
     private Label username;
@@ -23,25 +25,12 @@ public class ProfileController implements Initializable {
     @FXML
     private Label email;
 
-    public Label getUsername() {
-        return username;
-    }
-
-    public Label getRole() {
-        return role;
-    }
-
-    public Label getEmail() {
-        return email;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        this.user = User.getInstance();
-//        username.setText(this.user.getUsername());
-//        adress.setText(this.user.getAddress());
-//        role.setText(this.user.getRole());
-//        email.setText(this.user.getEmail());
+//        username.setText(dataStorage.getLoggedInUser().getUsername());
+//        adress.setText(dataStorage.getLoggedInUser().getContactDetails().getAddress().getCity());
+//        role.setText(dataStorage.getLoggedInUser().getRole());
+//        email.setText(dataStorage.getLoggedInUser().getContactDetails().getEmail());
     }
 
 }
