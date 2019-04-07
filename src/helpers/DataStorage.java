@@ -123,6 +123,7 @@ public class DataStorage {
                 CategoryEvent categoryEvent = new CategoryEvent();
                 categoryEvent.setTitle((String) json_event.get("title"));
                 categoryEvent.setMessage((String) json_event.get("message"));
+                categoryEvent.setState(CategoryEvent.STATES.valueOf((String) json_event.get("state")));
 
                 Localization localization = new Localization();
                 JSONObject json_localization = (JSONObject) json_event.get("localization");

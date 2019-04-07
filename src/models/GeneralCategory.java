@@ -59,6 +59,15 @@ public class GeneralCategory implements Category {
         this.id = id;
     }
 
+    public CategoryEvent getCategoryEventById(int ID) {
+        for (CategoryEvent categoryEvent: categoryEvents) {
+            if (categoryEvent.getId() == ID) {
+                return categoryEvent;
+            }
+        }
+        return null;
+    }
+
     public JSONObject getJSONObject() {
         JSONObject category = new JSONObject();
         category.put("id", this.id);

@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 
 public class ListOfCategoryEvents implements Initializable {
     private DataStorage dataStorage = DataStorage.getInstance();
+    private GeneralCategory currentGeneralCategory;
 
     @FXML
     private VBox id_vbox_container;
@@ -63,6 +64,7 @@ public class ListOfCategoryEvents implements Initializable {
     private GeneralCategory getCategory(String title) {
         for (GeneralCategory genCat: dataStorage.getGeneralCategories()) {
             if (genCat.getTitle().equals(title)) {
+                this.currentGeneralCategory = genCat;
                 return genCat;
             }
         }
@@ -81,7 +83,6 @@ public class ListOfCategoryEvents implements Initializable {
     private void showCategory(ActionEvent actionEvent) {
         double prefHeight = 600, prefWidth = 900, spacing = 50;
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {
-            System.out.println("showCategory");
             id_vbox_container.getChildren().clear();
             for (CategoryEvent categoryEvent: getCategory(this.id_combo_category.getValue()).getCategoryEvents()) {
                 HBox category = new HBox();
@@ -92,30 +93,33 @@ public class ListOfCategoryEvents implements Initializable {
                 category.getChildren().add(generateVBox(prefHeight, 400, spacing, "id_message", categoryEvent.getMessage()));
                 category.getChildren().add(generateVBox(prefHeight, 300, spacing, "id_address", categoryEvent.getAddress().getStreetName()));
                 Button details = new Button("Details");
-                details.setOnAction(e -> CategoryEventDetails(e));
+                details.setId(String.valueOf(categoryEvent.getId()));
+                details.setOnAction(event -> {
+                    CategoryEventDetails(details, event);
+                });
                 category.getChildren().add(details);
                 id_vbox_container.getChildren().add(category);
             }
         }
     }
 
-    private void CategoryEventDetails(ActionEvent event) {
+    private void CategoryEventDetails(Button details, ActionEvent event) {
         Parent root = null;
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
-//            AnchorPane anchorPane = loader.load();
-//            CategoryEventDetailsController categoryEventDetailsController = loader.getController();
-//            categoryEventDetailsController.setCategoryEventID(event.getPickResult().getIntersectedNode().getId());
-//            eventsPaneController.setHolderPane(this.holderPane);
-//            root = FXMLLoader.load(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
-//            Node node = (Node) event.getSource();
-//
-//            Stage stage = (Stage) node.getScene().getWindow();
-//
-//            stage.setScene(new Scene(root));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
+            AnchorPane anchorPane = loader.load();
+            CategoryEventDetailsController categoryEventDetailsController = loader.getController();
+            categoryEventDetailsController.setGeneralCategory(this.currentGeneralCategory);
+            categoryEventDetailsController.setCategoryEvent(this.currentGeneralCategory.getCategoryEventById(Integer.parseInt(details.getId())));
+            root = FXMLLoader.load(getClass().getResource("/views/dashboard/CategoryEventDetails.fxml"));
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
