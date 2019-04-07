@@ -7,6 +7,10 @@ public class CategoryEvent {
     private static int incrementId = 0;
     private int id;
 
+    public enum STATES {
+        TO_DO, IN_PROGRESS, DONE
+    }
+
     private NotificationManager notificationManager = new NotificationManager();
 
     public void addSubscriber(String eventType, AdminUser listener) {
@@ -49,15 +53,15 @@ public class CategoryEvent {
     private String title = "";
     private String message = "";
 
-    public String getState() {
+    public STATES getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(STATES state) {
         this.state = state;
     }
 
-    private String state = "";
+    private STATES state = STATES.TO_DO;
     private Address address;
     private Localization localization;
 
@@ -103,7 +107,7 @@ public class CategoryEvent {
         categoryEvent.put("id", this.id);
         categoryEvent.put("title", this.title);
         categoryEvent.put("message", this.message);
-        categoryEvent.put("state", this.state);
+        categoryEvent.put("state", this.state.toString());
         categoryEvent.put("address", this.address.getJSONObject());
         categoryEvent.put("localization", this.localization.getJSONObject());
         return categoryEvent;

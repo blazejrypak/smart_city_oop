@@ -109,7 +109,7 @@
             </HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="62.0" prefWidth="366.0">
                <children>
-                  <Label fx:id="id_state" alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="92.0" text="State">
+                  <Label fx:id="id_state" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="329.0" text="State">
                      <font>
                         <Font size="33.0" />
                      </font>
@@ -126,7 +126,7 @@
                </children></HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="239.0" prefHeight="62.0" prefWidth="366.0">
                <children>
-                  <Button fx:id="id_submit" mnemonicParsing="false" prefHeight="43.0" prefWidth="271.0" text="Submit" />
+                  <Button fx:id="id_submit" mnemonicParsing="false" onAction="#submit" prefHeight="43.0" prefWidth="271.0" text="Submit" />
                </children>
             </HBox>
          </children>

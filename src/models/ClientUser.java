@@ -16,9 +16,9 @@ public class ClientUser extends User implements NotificationListeners {
         for (User user: users) {
             if (user.getRole().equals("client") && this.getId() == user.getId()) {
                 System.out.println("adding notification to user " + user.getUsername());
-                if (categoryEvent.getState().equals("in_progress")) {
+                if (categoryEvent.getState() == CategoryEvent.STATES.IN_PROGRESS) {
                     user.addNotification("Your suggestion is in a state of solution.");
-                } else if (categoryEvent.getState().equals("done")) {
+                } else if (categoryEvent.getState() == CategoryEvent.STATES.DONE) {
                     user.addNotification("Your suggestion has been made.");
                 }
                 if (user.getId() == dataStorage.getLoggedInUser().getId()) {
