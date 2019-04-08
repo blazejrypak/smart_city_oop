@@ -3,7 +3,6 @@ package models;
 import helpers.DataStorage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Register {
     private DataStorage dataStorage = DataStorage.getInstance();
