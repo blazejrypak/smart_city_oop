@@ -126,7 +126,7 @@ public class User implements NotificationListeners {
         setContactDetails(contactDetails);
         setRole((String) user.get("role"));
         JSONArray jsonArrayNotifications = (JSONArray) user.get("notifications");
-        for (Object object: jsonArrayNotifications) {
+        for (Object object : jsonArrayNotifications) {
             this.notifications.add((String) object);
         }
     }

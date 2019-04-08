@@ -4,7 +4,6 @@ import helpers.DataStorage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,14 +11,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.*;
+import models.CategoryEvent;
+import models.ClientUser;
+import models.GeneralCategory;
+import models.User;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -62,10 +65,10 @@ public class ListOfCategoryEvents implements Initializable {
     }
 
     private GeneralCategory getCategory(String title) {
-        for (GeneralCategory genCat: dataStorage.getGeneralCategories()) {
-            if (genCat.getTitle().equals(title)) {
-                this.currentGeneralCategory = genCat;
-                return genCat;
+        for (GeneralCategory generalCategory : dataStorage.getGeneralCategories()) {
+            if (generalCategory.getTitle().equals(title)) {
+                this.currentGeneralCategory = generalCategory;
+                return generalCategory;
             }
         }
         return null;
@@ -73,7 +76,7 @@ public class ListOfCategoryEvents implements Initializable {
 
     private void changeState(ActionEvent actionEvent) {
         CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
-        for (User user: dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())){
+        for (User user : dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())) {
             categoryEvent.addSubscriber("new_state", (ClientUser) user);
         }
         categoryEvent.notify("new_state", categoryEvent);
@@ -84,7 +87,7 @@ public class ListOfCategoryEvents implements Initializable {
         double prefHeight = 600, prefWidth = 900, spacing = 50;
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {
             id_vbox_container.getChildren().clear();
-            for (CategoryEvent categoryEvent: getCategory(this.id_combo_category.getValue()).getCategoryEvents()) {
+            for (CategoryEvent categoryEvent : getCategory(this.id_combo_category.getValue()).getCategoryEvents()) {
                 HBox category = new HBox();
                 category.setAlignment(Pos.CENTER);
                 category.setPrefWidth(900);

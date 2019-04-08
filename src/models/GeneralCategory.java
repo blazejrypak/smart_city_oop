@@ -14,6 +14,7 @@ public class GeneralCategory implements Category {
     }
 
     private static int id_increment = 0;
+
     public ArrayList<CategoryEvent> getCategoryEvents() {
         return categoryEvents;
     }
@@ -60,7 +61,7 @@ public class GeneralCategory implements Category {
     }
 
     public CategoryEvent getCategoryEventById(int ID) {
-        for (CategoryEvent categoryEvent: categoryEvents) {
+        for (CategoryEvent categoryEvent : categoryEvents) {
             if (categoryEvent.getId() == ID) {
                 return categoryEvent;
             }
