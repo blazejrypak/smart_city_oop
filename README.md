@@ -35,7 +35,16 @@ podal alebo sa oň zaujímal.
 - polymorfizmus: metóda update() z interfacu NotificationListeners v triedach AdminUser a OfficeUser 
 je rôzne implementovaná. (Observer pattern)
 
-# Requirements:
+# Getting Started
+- change absolute path in helpers/DataStorage.java to:
+    - private String USERS = "/**yourAbsolutePath**/src/helpers/users";
+    - private String CATEGORIES = "/**yourAbsolutePath**/src/helpers/categories";
+    - example: private String USERS = "/home/bubo/IdeaProjects/SmartCityFinal/src/helpers/users";
+
+- install libraries in prerequisites below
+# Prerequisites:
 - Java 1.8.0
 - JFoenix 8.x.x from https://github.com/jfoenixadmin/JFoenix
 - json-simple-1.1.1.jar from https://code.google.com/archive/p/json-simple/downloads
+
+#
