@@ -11,11 +11,10 @@ public class OfficeUser extends User implements NotificationListeners {
     @Override
     public void update(Object object) {
         CategoryEvent categoryEvent = (CategoryEvent) object;
-        ArrayList<User> users = dataStorage.getAllUsers(User.class, "");
+        ArrayList<User> users = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
         for (User user: users) {
             if (user.getRole().equals("officer") && this.getId() == user.getId()) {
-                System.out.println("adding notification to user " + user.getUsername());
-                user.addNotification("You have another new suggestion");
+                user.addNotification("You have another new suggestion: " + categoryEvent.getTitle() + ":  " + categoryEvent.getMessage());
                 if (user.getId() == dataStorage.getLoggedInUser().getId()) {
                     dataStorage.setLoggedInUser(user); // update loggedInUser with notifications
                 }

@@ -73,7 +73,7 @@ public class ListOfCategoryEvents implements Initializable {
 
     private void changeState(ActionEvent actionEvent) {
         CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
-        for (User user: dataStorage.getAllUsers(ClientUser.class, "client")){
+        for (User user: dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())){
             categoryEvent.addSubscriber("new_state", (ClientUser) user);
         }
         categoryEvent.notify("new_state", categoryEvent);
