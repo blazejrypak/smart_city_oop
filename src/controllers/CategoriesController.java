@@ -23,7 +23,7 @@ public class CategoriesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<GeneralCategory> generalCategories = dataStorage.getGeneralCategories();
         List<String> list = new ArrayList<String>();
-        for (GeneralCategory generalCategory: generalCategories) {
+        for (GeneralCategory generalCategory : generalCategories) {
             list.add(generalCategory.getTitle());
         }
         ObservableList obList = FXCollections.observableList(list);

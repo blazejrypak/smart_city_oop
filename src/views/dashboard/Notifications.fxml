@@ -5,14 +5,16 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NotificationsController">
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.NotificationsController">
     <children>
-        <Label layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="207.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;" text="Notifications" />
-        <Separator layoutX="3.0" layoutY="55.0" prefHeight="4.0" prefWidth="1213.0" />
-      <ScrollPane layoutX="35.0" layoutY="99.0" prefHeight="578.0" prefWidth="1150.0">
-         <content>
-            <ListView fx:id="list_view" prefHeight="524.0" prefWidth="1090.0" />
-         </content>
-      </ScrollPane>
+        <Label layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="207.0"
+               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;" text="Notifications"/>
+        <Separator layoutX="3.0" layoutY="55.0" prefHeight="4.0" prefWidth="1213.0"/>
+        <ScrollPane layoutX="35.0" layoutY="99.0" prefHeight="578.0" prefWidth="1150.0">
+            <content>
+                <ListView fx:id="list_view" prefHeight="524.0" prefWidth="1090.0"/>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>

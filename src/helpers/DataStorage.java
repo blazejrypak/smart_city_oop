@@ -43,7 +43,7 @@ public class DataStorage {
 
     public void updateUsersData(ArrayList<User> users) {
         this.jsonArrayUsers.clear();
-        for (User user: users) {
+        for (User user : users) {
             this.jsonArrayUsers.add(user.getJSONObject());
         }
     }
@@ -82,16 +82,17 @@ public class DataStorage {
         }
         return list;
     }
+
     public ArrayList<GeneralCategory> getGeneralCategories() {
         return this.generalCategories;
     }
 
-    public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList){
+    public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
         this.generalCategories = generalCategoryArrayList;
     }
 
-    public void updateCategories(GeneralCategory generalCategory){
-        for (GeneralCategory category: this.generalCategories) {
+    public void updateCategories(GeneralCategory generalCategory) {
+        for (GeneralCategory category : this.generalCategories) {
             if (category.getId() == generalCategory.getId()) {
                 this.generalCategories.remove(category);
                 this.generalCategories.add(generalCategory);
@@ -111,7 +112,7 @@ public class DataStorage {
             generalCategory.setType((String) category.get("type"));
             generalCategory.setTitle((String) category.get("title"));
             ArrayList<CategoryEvent> categoryEvents = new ArrayList<>();
-            for (Object event: (JSONArray) category.get("category_events")) {
+            for (Object event : (JSONArray) category.get("category_events")) {
                 JSONObject json_event = (JSONObject) event;
                 CategoryEvent categoryEvent = new CategoryEvent();
                 categoryEvent.setTitle((String) json_event.get("title"));
@@ -155,11 +156,11 @@ public class DataStorage {
 
     private void saveCategories() {
         this.jsonArrayCategories.clear();
-        for (GeneralCategory generalCategory: this.generalCategories) {
+        for (GeneralCategory generalCategory : this.generalCategories) {
             JSONObject general_category_json_object = new JSONObject();
             if (generalCategory.getCategoryEvents() != null) {
                 JSONArray category_events = new JSONArray();
-                for (CategoryEvent event: generalCategory.getCategoryEvents()) {
+                for (CategoryEvent event : generalCategory.getCategoryEvents()) {
                     category_events.add(event.getJSONObject());
                 }
                 general_category_json_object = generalCategory.getJSONObject();
@@ -184,7 +185,7 @@ public class DataStorage {
 
     private void saveUsers() {
         if (loggedInUser != null) {
-            for (Object obj: this.jsonArrayUsers) {
+            for (Object obj : this.jsonArrayUsers) {
                 JSONObject usr = (JSONObject) obj;
                 if ((((Number) usr.get("id")).intValue()) == loggedInUser.getId()) {
                     this.jsonArrayUsers.remove(usr);

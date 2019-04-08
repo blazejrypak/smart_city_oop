@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Register {
     private DataStorage dataStorage = DataStorage.getInstance();
     private ArrayList<User> userList = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
+
     private boolean usernameNotExist(String username) {
         if (username.equals("bubo")) {
             return false;

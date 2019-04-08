@@ -65,7 +65,7 @@ public class ListOfCategoryEvents implements Initializable {
     }
 
     private GeneralCategory getCategory(String title) {
-        for (GeneralCategory generalCategory: dataStorage.getGeneralCategories()) {
+        for (GeneralCategory generalCategory : dataStorage.getGeneralCategories()) {
             if (generalCategory.getTitle().equals(title)) {
                 this.currentGeneralCategory = generalCategory;
                 return generalCategory;
@@ -76,7 +76,7 @@ public class ListOfCategoryEvents implements Initializable {
 
     private void changeState(ActionEvent actionEvent) {
         CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
-        for (User user: dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())){
+        for (User user : dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())) {
             categoryEvent.addSubscriber("new_state", (ClientUser) user);
         }
         categoryEvent.notify("new_state", categoryEvent);
@@ -87,7 +87,7 @@ public class ListOfCategoryEvents implements Initializable {
         double prefHeight = 600, prefWidth = 900, spacing = 50;
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {
             id_vbox_container.getChildren().clear();
-            for (CategoryEvent categoryEvent: getCategory(this.id_combo_category.getValue()).getCategoryEvents()) {
+            for (CategoryEvent categoryEvent : getCategory(this.id_combo_category.getValue()).getCategoryEvents()) {
                 HBox category = new HBox();
                 category.setAlignment(Pos.CENTER);
                 category.setPrefWidth(900);
