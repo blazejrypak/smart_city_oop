@@ -57,24 +57,24 @@ public class DataStorage {
 
     public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
         boolean allUsers = false;
-        if (role.equals("")) {
+        if (role.equals(User.class.getSimpleName())) {
             allUsers = true;
         }
         ArrayList<T> list = new ArrayList<T>();
         for (Object jsonArrayUser : this.jsonArrayUsers) {
             JSONObject user = (JSONObject) jsonArrayUser;
             if ((user.get("role")).equals(role) || allUsers) {
-                if (user.get("role").equals("admin")) {
+                if (user.get("role").equals(AdminUser.class.getSimpleName())) {
                     AdminUser adminUser = new AdminUser();
                     adminUser.populate(user);
                     T t = c.cast(adminUser);
                     list.add(t);
-                } else if (user.get("role").equals("client")) {
+                } else if (user.get("role").equals(ClientUser.class.getSimpleName())) {
                     ClientUser clientUser = new ClientUser();
                     clientUser.populate(user);
                     T t = c.cast(clientUser);
                     list.add(t);
-                } else if (user.get("role").equals("officer")) {
+                } else if (user.get("role").equals(OfficeUser.class.getSimpleName())) {
                     OfficeUser officeUser = new OfficeUser();
                     officeUser.populate(user);
                     T t = c.cast(officeUser);

@@ -12,7 +12,7 @@ public class ClientUser extends User implements NotificationListeners {
     @Override
     public void update(Object object) {
         CategoryEvent categoryEvent = (CategoryEvent) object;
-        ArrayList<User> users = dataStorage.getAllUsers(User.class, "");
+        ArrayList<User> users = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
         for (User user: users) {
             if (user.getRole().equals("client") && this.getId() == user.getId()) {
                 System.out.println("adding notification to user " + user.getUsername());

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Login {
     private DataStorage dataStorage = DataStorage.getInstance();
-    private ArrayList<User> userList = dataStorage.getAllUsers(User.class, "");
+    private ArrayList<User> userList = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
 
     public void login(String username, String password) {
         for (User user : userList) {
