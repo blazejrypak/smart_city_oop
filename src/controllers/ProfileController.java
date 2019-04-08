@@ -27,10 +27,10 @@ public class ProfileController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        username.setText(dataStorage.getLoggedInUser().getUsername());
+        username.setText(dataStorage.getLoggedInUser().getUsername());
 //        adress.setText(dataStorage.getLoggedInUser().getContactDetails().getAddress().getCity());
-//        role.setText(dataStorage.getLoggedInUser().getRole());
-//        email.setText(dataStorage.getLoggedInUser().getContactDetails().getEmail());
+        role.setText(dataStorage.getLoggedInUser().getRole());
+        email.setText(dataStorage.getLoggedInUser().getContactDetails().getEmail());
     }
 
 }
