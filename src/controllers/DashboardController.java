@@ -1,13 +1,17 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import helpers.DataStorage;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -17,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
+    private DataStorage dataStorage = DataStorage.getInstance();
 
     @FXML
     private JFXButton btnNotifications;
@@ -106,5 +111,23 @@ public class DashboardController implements Initializable {
     @FXML
     private void switchNotifications(ActionEvent event) {
         setNode(notifications);
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+        dataStorage.saveData();
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/account/login.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

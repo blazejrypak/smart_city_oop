@@ -1,15 +1,14 @@
 package controllers;
 
+import com.jfoenix.controls.JFXListView;
 import helpers.DataStorage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class NotificationsController implements Initializable {
@@ -18,15 +17,19 @@ public class NotificationsController implements Initializable {
     @FXML
     private ListView list_view;
 
+    @FXML
+    private Pane pane;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<String> list = new ArrayList<String>();
+        JFXListView<Label> list = new JFXListView<Label>();
         for (String notification : dataStorage.getLoggedInUser().getAllNotifications()) {
-            list.add(notification);
+            list.getItems().add(new Label(notification));
         }
-        ObservableList obList = FXCollections.observableList(list);
-        list_view.getItems().clear();
-        list_view.setItems(obList);
+        list.getStyleClass().add("mylistview");
+        list.setPrefWidth(1170);
+        list.setPrefHeight(650);
+        pane.getChildren().add(list);
     }
 }
