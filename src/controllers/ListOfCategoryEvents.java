@@ -19,9 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.CategoryEvent;
-import models.ClientUser;
+import models.users.ClientUser;
 import models.GeneralCategory;
-import models.User;
+import models.users.User;
 
 import java.io.IOException;
 import java.net.URL;

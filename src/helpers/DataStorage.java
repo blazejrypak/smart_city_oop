@@ -1,6 +1,10 @@
 package helpers;
 
 import models.*;
+import models.users.AdminUser;
+import models.users.ClientUser;
+import models.users.OfficeUser;
+import models.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

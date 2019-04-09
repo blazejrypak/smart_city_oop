@@ -1,10 +1,11 @@
-package models;
-
+package models.authentification;
 import helpers.DataStorage;
+import models.users.AdminUser;
+import models.users.User;
 
 import java.util.ArrayList;
 
-public class Register {
+public class Registration {
     private DataStorage dataStorage = DataStorage.getInstance();
     private ArrayList<User> userList = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
 

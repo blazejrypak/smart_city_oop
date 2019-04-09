@@ -1,8 +1,8 @@
 package helpers;
 
-import models.AdminUser;
-import models.ClientUser;
-import models.OfficeUser;
+import models.users.AdminUser;
+import models.users.ClientUser;
+import models.users.OfficeUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,9 @@
 package models;
 
 import helpers.NotificationManager;
+import models.users.AdminUser;
+import models.users.ClientUser;
+import models.users.OfficeUser;
 import org.json.simple.JSONObject;
 
 public class CategoryEvent {

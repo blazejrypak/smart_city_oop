@@ -1,6 +1,7 @@
-package models;
+package models.users;
 
 import helpers.NotificationListeners;
+import models.ContactDetails;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
