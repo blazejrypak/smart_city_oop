@@ -9,7 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.*;
@@ -41,7 +43,7 @@ public class AddCategoryEventController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> list = new ArrayList<String>();
-        for (GeneralCategory gc: dataStorage.getGeneralCategories()) {
+        for (GeneralCategory gc : dataStorage.getGeneralCategories()) {
             list.add(gc.getTitle());
         }
         ObservableList obList = FXCollections.observableList(list);
@@ -52,7 +54,7 @@ public class AddCategoryEventController implements Initializable {
     @FXML
     void submit(MouseEvent event) throws IOException {
         GeneralCategory generalCategory = new GeneralCategory();
-        for (GeneralCategory genCat: dataStorage.getGeneralCategories()) {
+        for (GeneralCategory genCat : dataStorage.getGeneralCategories()) {
             if (genCat.getTitle().equals(this.id_choice_category.getValue())) {
                 generalCategory = genCat;
                 break;
@@ -72,7 +74,7 @@ public class AddCategoryEventController implements Initializable {
         categoryEvent.setLocalization(localization);
         categoryEvent.setMessage(this.id_message.getText());
         categoryEvent.setState(CategoryEvent.STATES.TO_DO);
-        for (OfficeUser officeUser: dataStorage.getAllUsers(OfficeUser.class, OfficeUser.class.getSimpleName())){
+        for (OfficeUser officeUser : dataStorage.getAllUsers(OfficeUser.class, OfficeUser.class.getSimpleName())) {
             categoryEvent.addSubscriber("new_category_event", officeUser);
         }
         generalCategory.addCategoryEvent(categoryEvent);

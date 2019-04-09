@@ -22,7 +22,7 @@ public class NotificationsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> list = new ArrayList<String>();
-        for (String notification: dataStorage.getLoggedInUser().getAllNotifications()) {
+        for (String notification : dataStorage.getLoggedInUser().getAllNotifications()) {
             list.add(notification);
         }
         ObservableList obList = FXCollections.observableList(list);

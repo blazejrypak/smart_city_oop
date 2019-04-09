@@ -4,7 +4,6 @@ import helpers.DataStorage;
 import models.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Login {
     private DataStorage dataStorage = DataStorage.getInstance();

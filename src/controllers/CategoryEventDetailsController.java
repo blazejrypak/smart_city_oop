@@ -14,13 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import models.Category;
 import models.CategoryEvent;
 import models.GeneralCategory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CategoryEventDetailsController implements Initializable {

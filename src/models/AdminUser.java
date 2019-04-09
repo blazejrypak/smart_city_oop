@@ -29,7 +29,7 @@ public class AdminUser extends User {
     public void update(Object object) {
         CategoryEvent categoryEvent = (CategoryEvent) object;
         ArrayList<User> users = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
-        for (User user: users) {
+        for (User user : users) {
             if (user.getRole().equals("admin") && this.getId() == user.getId()) {
                 System.out.println("adding notification to user " + user.getUsername());
                 user.addNotification(categoryEvent.getTitle() + " " + categoryEvent.getMessage());

@@ -1,4 +1,5 @@
-Blažej Rypák
+# Blažej Rypák
+
 # Smart city
 Projekt Smart City je určený na efektívnejšiu komunikáciu medzi občanom a jeho
 samosprávou v oblasti podávania rôznych podnetov zo strany občanov a opätovnom
@@ -32,10 +33,31 @@ podal alebo sa oň zaujímal.
 
 - dedenie: trieda AdminUser dedí triedu User
 
-- polymorfizmus: metóda update() z interfacu NotificationListeners v triedach AdminUser a OfficeUser 
+- polymorfizmus: metóda update() z interfacu NotificationListeners v triedach ClientUser a OfficeUser 
 je rôzne implementovaná. (Observer pattern)
 
-# Requirements:
+# Getting Started
+- change absolute path in helpers/DataStorage.java to:
+    - private String USERS = "/**yourAbsolutePath**/src/helpers/users";
+    - private String CATEGORIES = "/**yourAbsolutePath**/src/helpers/categories";
+    - example: private String USERS = "/home/bubo/IdeaProjects/SmartCityFinal/src/helpers/users";
+
+- install libraries in prerequisites below
+
+# Prerequisites:
 - Java 1.8.0
 - JFoenix 8.x.x from https://github.com/jfoenixadmin/JFoenix
 - json-simple-1.1.1.jar from https://code.google.com/archive/p/json-simple/downloads
+
+## Accounts for testing
+- Admin
+    - username: **root**
+    - password: **root**
+    
+- Officer
+    - username: **officer**
+    - password: **officer**
+    
+- Citizen
+    - username: **client**
+    - password: **client**
