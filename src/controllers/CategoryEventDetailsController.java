@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.CategoryEvent;
@@ -72,15 +73,32 @@ public class CategoryEventDetailsController implements Initializable {
             id_city.setText(categoryEvent.getAddress().getCity());
             id_street_name.setText(categoryEvent.getAddress().getStreetName());
             id_message.setText(categoryEvent.getMessage());
-            id_state.setText(categoryEvent.getState().toString());
+            id_state.setText(categoryEvent.getState().getTitle());
             if (categoryEvent.getState() == CategoryEvent.STATES.TO_DO) {
-                state_rectangle.setStyle("-fx-background-color: #FF3100;");
+                state_rectangle.setFill(Color.RED);
             } else if (categoryEvent.getState() == CategoryEvent.STATES.IN_PROGRESS) {
-                state_rectangle.setStyle("-fx-background-color: #FFEB00;");
+                state_rectangle.setFill(Color.YELLOW);
             } else {
-                state_rectangle.setStyle("-fx-background-color: #5AFF12;");
+                state_rectangle.setFill(Color.GREEN);
             }
             combo_box.getItems().addAll(CategoryEvent.STATES.values());
+            combo_box.setOnAction(e -> {
+                handleChangeIndex();
+            });
+        }
+    }
+
+    private void handleChangeIndex(){
+        switch (CategoryEvent.STATES.valueOf(String.valueOf(this.combo_box.getValue()))) {
+            case TO_DO:
+                state_rectangle.setFill(Color.RED);
+                break;
+            case IN_PROGRESS:
+                state_rectangle.setFill(Color.YELLOW);
+                break;
+            case DONE:
+                state_rectangle.setFill(Color.GREEN);
+                break;
         }
     }
 

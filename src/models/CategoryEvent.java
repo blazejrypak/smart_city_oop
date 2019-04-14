@@ -11,7 +11,20 @@ public class CategoryEvent {
     private int id;
 
     public enum STATES {
-        TO_DO, IN_PROGRESS, DONE
+        TO_DO, IN_PROGRESS, DONE;
+
+        public String getTitle() {
+            STATES state = STATES.valueOf(super.toString());
+            switch (state) {
+                case TO_DO:
+                    return "To do";
+                case IN_PROGRESS:
+                    return "In progress";
+                case DONE:
+                    return "Done";
+            }
+        return "";
+        }
     }
 
     private NotificationManager notificationManager = new NotificationManager();
