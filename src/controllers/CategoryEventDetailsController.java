@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -66,14 +67,22 @@ public class CategoryEventDetailsController implements Initializable {
     @FXML
     private Rectangle state_rectangle;
 
+    @FXML
+    private HBox combo_box_container;
+
+    @FXML
+    private HBox submit_container;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (categoryEvent != null) {
-            id_type.setText(categoryEvent.getTitle());
+            id_type.setText("Change suggestion state");
+            id_state.setText(categoryEvent.getTitle());
             id_city.setText(categoryEvent.getAddress().getCity());
             id_street_name.setText(categoryEvent.getAddress().getStreetName());
             id_message.setText(categoryEvent.getMessage());
             id_state.setText(categoryEvent.getState().getTitle());
+            // Handle state of rectangle background color
             if (categoryEvent.getState() == CategoryEvent.STATES.TO_DO) {
                 state_rectangle.setFill(Color.RED);
             } else if (categoryEvent.getState() == CategoryEvent.STATES.IN_PROGRESS) {
@@ -81,7 +90,16 @@ public class CategoryEventDetailsController implements Initializable {
             } else {
                 state_rectangle.setFill(Color.GREEN);
             }
-            combo_box.getItems().addAll(CategoryEvent.STATES.values());
+            // handle combo box view
+            if (categoryEvent.getState() == CategoryEvent.STATES.IN_PROGRESS) {
+                combo_box.getItems().add(CategoryEvent.STATES.IN_PROGRESS);
+                combo_box.getItems().add(CategoryEvent.STATES.DONE);
+            } else if (categoryEvent.getState() == CategoryEvent.STATES.DONE) {
+                combo_box_container.getChildren().clear();
+                submit_container.getChildren().clear();
+            } else {
+                combo_box.getItems().addAll(CategoryEvent.STATES.values());
+            }
             combo_box.setOnAction(e -> {
                 handleChangeIndex();
             });
@@ -92,12 +110,15 @@ public class CategoryEventDetailsController implements Initializable {
         switch (CategoryEvent.STATES.valueOf(String.valueOf(this.combo_box.getValue()))) {
             case TO_DO:
                 state_rectangle.setFill(Color.RED);
+                id_state.setText(CategoryEvent.STATES.TO_DO.getTitle());
                 break;
             case IN_PROGRESS:
                 state_rectangle.setFill(Color.YELLOW);
+                id_state.setText(CategoryEvent.STATES.IN_PROGRESS.getTitle());
                 break;
             case DONE:
                 state_rectangle.setFill(Color.GREEN);
+                id_state.setText(CategoryEvent.STATES.DONE.getTitle());
                 break;
         }
     }
@@ -113,6 +134,11 @@ public class CategoryEventDetailsController implements Initializable {
         }
         dataStorage.updateCategories(this.getGeneralCategory());
 
+        back(event);
+    }
+
+    @FXML
+    private void back(ActionEvent event) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));
