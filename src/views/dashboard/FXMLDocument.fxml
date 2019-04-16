@@ -30,7 +30,7 @@
              </JFXButton>
          </right>
         </JFXToolbar>
-        <VBox layoutY="41.0" prefHeight="719.0" prefWidth="184.0" style="-fx-background-color: #2A3F54;">
+        <VBox fx:id="vertical_menu" layoutY="41.0" prefHeight="719.0" prefWidth="184.0" style="-fx-background-color: #2A3F54;">
             <children>
                 <Label prefHeight="57.0" prefWidth="184.0" style="-fx-alignment: center; -fx-font-size: 16; -fx-text-fill: #7387A8; -fx-border-color: #7387A8; -fx-border-width: 0 0 2 0;" text="NAVIGATION" />
                 <JFXButton fx:id="btnHome" prefHeight="42.0" prefWidth="192.0" text="Home" textFill="#a1aec4">

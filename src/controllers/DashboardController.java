@@ -11,8 +11,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.users.AdminUser;
+import models.users.OfficeUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +42,9 @@ public class DashboardController implements Initializable {
     private AnchorPane holderPane;
 
     @FXML
+    private VBox vertical_menu;
+
+    @FXML
     private JFXButton btnHome;
 
     @FXML
@@ -48,11 +54,21 @@ public class DashboardController implements Initializable {
     private JFXButton btnProfile;
 
     private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications;
-    @FXML
-    private JFXButton btnControls;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) {
+            vertical_menu.getChildren().remove(btnAddCategory);
+            vertical_menu.getChildren().remove(btnAddCategoryEvent);
+            vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+            vertical_menu.getChildren().remove(btnEvents);
+        } else if (dataStorage.getLoggedInUser().getRole().equals(OfficeUser.class.getSimpleName())) {
+            vertical_menu.getChildren().remove(btnAddCategoryEvent);
+        } else {
+            vertical_menu.getChildren().remove(btnAddCategory);
+            vertical_menu.getChildren().remove(btnNotifications);
+            vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+        }
         //Load all fxmls in a cache
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
