@@ -52,6 +52,12 @@ public class DataStorage {
         }
     }
 
+    /**
+     * @param c class of user
+     * @param role user role
+     * @param <T> generic type
+     * @return Array of specific class of users
+     */
     public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
         boolean allUsers = false;
         if (role.equals(User.class.getSimpleName())) {
@@ -95,6 +101,10 @@ public class DataStorage {
         this.generalCategories = generalCategoryArrayList;
     }
 
+    /**
+     * This method update specific category
+     * @param generalCategory is class of general category
+     */
     public void updateCategories(GeneralCategory generalCategory) {
         for (GeneralCategory category : this.generalCategories) {
             if (category.getId() == generalCategory.getId()) {
@@ -105,6 +115,9 @@ public class DataStorage {
         }
     }
 
+    /**
+     * @return Array List of all categories
+     */
     private ArrayList<GeneralCategory> getAllCategories() {
         ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
         int category_increment_id = 0;
@@ -158,6 +171,9 @@ public class DataStorage {
         return categories;
     }
 
+    /**
+     * This method save all categories to JSON file
+     */
     private void saveCategories() {
         this.jsonArrayCategories.clear();
         for (GeneralCategory generalCategory : this.generalCategories) {
@@ -187,6 +203,9 @@ public class DataStorage {
         saveCategories();
     }
 
+    /**
+     * This method save all users to JSON file.
+     */
     private void saveUsers() {
         if (loggedInUser != null) {
             for (Object obj : this.jsonArrayUsers) {
@@ -208,6 +227,10 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This method add user to json list of users and save it to JSON file.
+     * @param user class of User
+     */
     public void addUser(User user) {
         this.jsonArrayUsers.add(user.getJSONObject());
 
@@ -221,6 +244,9 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This method load all user from JSON file to json user list
+     */
     private void loadUsers() {
         try {
 
@@ -233,6 +259,9 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This method load all user from JSON file to json category list
+     */
     private void loadCategories() {
         try {
 
@@ -245,6 +274,10 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This methot always return just one instance, here is used Singleton pattern
+     * @return instance of this class
+     */
     public static DataStorage getInstance() {
         if (instance == null) {
             instance = new DataStorage();
