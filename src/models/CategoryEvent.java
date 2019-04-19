@@ -24,7 +24,7 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
                 case DONE:
                     return "Done";
             }
-        return "";
+            return "";
         }
     }
 
@@ -119,9 +119,20 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
         this.localization = localization;
     }
 
+    public int getUID() {
+        return UID;
+    }
+
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
+    private int UID = 0;
+
     public JSONObject getJSONObject() {
         JSONObject categoryEvent = new JSONObject();
         categoryEvent.put("id", this.id);
+        categoryEvent.put("UID", this.UID);
         categoryEvent.put("title", this.title);
         categoryEvent.put("message", this.message);
         categoryEvent.put("state", this.state.toString());
