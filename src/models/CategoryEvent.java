@@ -1,14 +1,31 @@
 package models;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import helpers.NotificationManager;
+import models.users.AdminUser;
+import models.users.ClientUser;
+import models.users.OfficeUser;
 import org.json.simple.JSONObject;
 
-public class CategoryEvent {
+public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
     private static int incrementId = 0;
     private int id;
 
     public enum STATES {
-        TO_DO, IN_PROGRESS, DONE
+        TO_DO, IN_PROGRESS, DONE;
+
+        public String getTitle() {
+            STATES state = STATES.valueOf(super.toString());
+            switch (state) {
+                case TO_DO:
+                    return "To do";
+                case IN_PROGRESS:
+                    return "In progress";
+                case DONE:
+                    return "Done";
+            }
+            return "";
+        }
     }
 
     private NotificationManager notificationManager = new NotificationManager();
@@ -102,9 +119,20 @@ public class CategoryEvent {
         this.localization = localization;
     }
 
+    public int getUID() {
+        return UID;
+    }
+
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
+    private int UID = 0;
+
     public JSONObject getJSONObject() {
         JSONObject categoryEvent = new JSONObject();
         categoryEvent.put("id", this.id);
+        categoryEvent.put("UID", this.UID);
         categoryEvent.put("title", this.title);
         categoryEvent.put("message", this.message);
         categoryEvent.put("state", this.state.toString());

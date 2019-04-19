@@ -1,13 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane id="AnchorPane" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="608.0" prefWidth="1216.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
     <children>
-        <Label fx:id="home_tittle" text="Home" layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="207.0"
-               style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;"/>
-        <Separator layoutX="3.0" layoutY="55.0" prefHeight="4.0" prefWidth="1213.0"/>
+        <Label layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="207.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;" text="Categories" />
+        <Separator layoutX="3.0" layoutY="55.0" prefHeight="4.0" prefWidth="1213.0" />
+      <HBox layoutX="34.0" layoutY="100.0" prefHeight="195.0" prefWidth="1053.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="175.0" prefWidth="330.0" style="-fx-background-color: #64BF39;">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="53.0" prefWidth="330.0">
+                     <children>
+                        <Label text="Number of sent suggestions">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="42.0" prefHeight="80.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="sent_suggestions" alignment="CENTER" contentDisplay="CENTER" text="15">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="175.0" prefWidth="330.0" style="-fx-background-color: #F2B544;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="53.0" prefWidth="330.0">
+                     <children>
+                        <Label text="Resolved suggestions">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="42.0" prefHeight="80.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="resolved_suggestions" alignment="CENTER" contentDisplay="CENTER" text="15">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="360.0" layoutY="10.0" prefHeight="175.0" prefWidth="330.0" style="-fx-background-color: #F25749;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="53.0" prefWidth="330.0">
+                     <children>
+                        <Label text="New notifications">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="42.0" prefHeight="80.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="new_notifications" alignment="CENTER" contentDisplay="CENTER" text="15">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

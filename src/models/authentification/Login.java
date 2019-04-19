@@ -1,7 +1,7 @@
-package authentification;
+package models.authentification;
 
 import helpers.DataStorage;
-import models.User;
+import models.users.User;
 
 import java.util.ArrayList;
 

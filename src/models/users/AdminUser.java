@@ -1,6 +1,7 @@
-package models;
+package models.users;
 
 import helpers.DataStorage;
+import models.CategoryEvent;
 
 import java.util.ArrayList;
 import java.util.List;

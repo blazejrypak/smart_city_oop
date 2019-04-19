@@ -1,4 +1,4 @@
-package models;
+package models.authentification;
 
 import helpers.DataStorage;
 

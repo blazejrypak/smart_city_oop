@@ -1,7 +1,8 @@
-package models;
+package models.users;
 
 import helpers.DataStorage;
 import helpers.NotificationListeners;
+import models.CategoryEvent;
 
 import java.util.ArrayList;
 

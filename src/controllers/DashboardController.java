@@ -1,14 +1,21 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import helpers.DataStorage;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.users.AdminUser;
+import models.users.OfficeUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
+    private DataStorage dataStorage = DataStorage.getInstance();
 
     @FXML
     private JFXButton btnNotifications;
@@ -34,6 +42,9 @@ public class DashboardController implements Initializable {
     private AnchorPane holderPane;
 
     @FXML
+    private VBox vertical_menu;
+
+    @FXML
     private JFXButton btnHome;
 
     @FXML
@@ -43,11 +54,21 @@ public class DashboardController implements Initializable {
     private JFXButton btnProfile;
 
     private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications;
-    @FXML
-    private JFXButton btnControls;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) {
+            vertical_menu.getChildren().remove(btnAddCategory);
+            vertical_menu.getChildren().remove(btnAddCategoryEvent);
+            vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+            vertical_menu.getChildren().remove(btnEvents);
+        } else if (dataStorage.getLoggedInUser().getRole().equals(OfficeUser.class.getSimpleName())) {
+            vertical_menu.getChildren().remove(btnAddCategoryEvent);
+        } else {
+            vertical_menu.getChildren().remove(btnAddCategory);
+            vertical_menu.getChildren().remove(btnNotifications);
+            vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+        }
         //Load all fxmls in a cache
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
@@ -75,6 +96,12 @@ public class DashboardController implements Initializable {
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
+    }
+
+    @FXML
+    private void switchHome(ActionEvent event) {
+        setNode(home);
+
     }
 
     @FXML
@@ -106,5 +133,23 @@ public class DashboardController implements Initializable {
     @FXML
     private void switchNotifications(ActionEvent event) {
         setNode(notifications);
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+        dataStorage.saveData();
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/account/login.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

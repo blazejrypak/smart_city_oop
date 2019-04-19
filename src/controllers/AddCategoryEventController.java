@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.*;
+import models.users.OfficeUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -74,6 +75,7 @@ public class AddCategoryEventController implements Initializable {
         categoryEvent.setLocalization(localization);
         categoryEvent.setMessage(this.id_message.getText());
         categoryEvent.setState(CategoryEvent.STATES.TO_DO);
+        categoryEvent.setUID(dataStorage.getLoggedInUser().getId());
         for (OfficeUser officeUser : dataStorage.getAllUsers(OfficeUser.class, OfficeUser.class.getSimpleName())) {
             categoryEvent.addSubscriber("new_category_event", officeUser);
         }
