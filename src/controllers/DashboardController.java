@@ -99,6 +99,12 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
+    private void switchHome(ActionEvent event) {
+        setNode(home);
+
+    }
+
+    @FXML
     private void switchEvents(ActionEvent event) {
         setNode(events);
 

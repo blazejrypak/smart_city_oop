@@ -108,13 +108,17 @@ public class ListOfCategoryEvents implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                        CategoryEventDetails(table.getSelectionModel().getSelectedItem().getValue().getId(), event);
+                        handleClickEvent(table.getSelectionModel().getSelectedItem().getValue(), event);
                     }
                 }
             });
             table.setRoot(root);
             table.setShowRoot(false);
         }
+    }
+
+    public void handleClickEvent(CategoryEvent categoryEvent, MouseEvent event){
+        CategoryEventDetails(categoryEvent.getId(), event);
     }
 
     private void CategoryEventDetails(int ID, MouseEvent event) {
