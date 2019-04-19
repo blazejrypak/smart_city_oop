@@ -22,6 +22,9 @@ public class Localization {
         this.longitude = longitude;
     }
 
+    /**
+     * @return JSONObject of Localization
+     */
     public JSONObject getJSONObject() {
         JSONObject localization = new JSONObject();
         localization.put("latitude", this.latitude);

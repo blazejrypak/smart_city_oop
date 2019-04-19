@@ -6,6 +6,9 @@ import models.CategoryEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class AdminUser is just specific role of user, AdminUser extends User class
+ */
 public class AdminUser extends User {
     private DataStorage dataStorage = DataStorage.getInstance();
 
@@ -26,6 +29,10 @@ public class AdminUser extends User {
         deleteFromDataStorage(user.getId());
     }
 
+    /**
+     * This method add notification to user
+     * @param object object sent by NotificationManager
+     */
     @Override
     public void update(Object object) {
         CategoryEvent categoryEvent = (CategoryEvent) object;

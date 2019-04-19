@@ -49,6 +49,9 @@ public class Address {
         return homeNumber;
     }
 
+    /**
+     * @return JSONObject of address
+     */
     public JSONObject getJSONObject() {
         JSONObject address = new JSONObject();
         address.put("country", this.country);

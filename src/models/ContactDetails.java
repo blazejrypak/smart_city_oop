@@ -49,6 +49,9 @@ public class ContactDetails {
     private String phone_number;
     private int fax;
 
+    /**
+     * @return JSONObject of ContactDetails
+     */
     public JSONObject getJSONObject() {
         JSONObject contactDetails = new JSONObject();
         contactDetails.put("email", this.email);
