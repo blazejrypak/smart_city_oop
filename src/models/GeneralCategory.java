@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
-public class GeneralCategory implements Category {
+public class GeneralCategory {
     public GeneralCategory() {
         setId(++id_increment);
     }
@@ -40,12 +40,10 @@ public class GeneralCategory implements Category {
 
     private String type;
 
-    @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @Override
     public String getTitle() {
         return title;
     }

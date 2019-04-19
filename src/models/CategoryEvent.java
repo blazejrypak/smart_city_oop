@@ -1,12 +1,13 @@
 package models;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import helpers.NotificationManager;
 import models.users.AdminUser;
 import models.users.ClientUser;
 import models.users.OfficeUser;
 import org.json.simple.JSONObject;
 
-public class CategoryEvent {
+public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
     private static int incrementId = 0;
     private int id;
 
