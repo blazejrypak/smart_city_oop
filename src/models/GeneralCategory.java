@@ -58,6 +58,11 @@ public class GeneralCategory {
         this.id = id;
     }
 
+    /**
+     * This method return Category event by id.
+     * @param ID ID of category event
+     * @return
+     */
     public CategoryEvent getCategoryEventById(int ID) {
         for (CategoryEvent categoryEvent : categoryEvents) {
             if (categoryEvent.getId() == ID) {
@@ -67,6 +72,9 @@ public class GeneralCategory {
         return null;
     }
 
+    /**
+     * @return JSONObject of GeneralCategory
+     */
     public JSONObject getJSONObject() {
         JSONObject category = new JSONObject();
         category.put("id", this.id);

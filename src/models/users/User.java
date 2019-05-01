@@ -99,6 +99,9 @@ public class User implements NotificationListeners {
         return jsonArray;
     }
 
+    /**
+     * @return JSONObject user
+     */
     public JSONObject getJSONObject() {
         JSONObject user = new JSONObject();
         user.put("id", this.id);
@@ -114,6 +117,10 @@ public class User implements NotificationListeners {
         return user;
     }
 
+    /**
+     * This method populate fields from JSONObject
+     * @param user JSONObject user
+     */
     public void populate(JSONObject user) {
         setId(((Number) user.get("id")).intValue());
         setUsername((String) user.get("username"));

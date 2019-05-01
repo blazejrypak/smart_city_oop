@@ -129,6 +129,9 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
 
     private int UID = 0;
 
+    /**
+     * @return return JSONObject of CategoryEvent
+     */
     public JSONObject getJSONObject() {
         JSONObject categoryEvent = new JSONObject();
         categoryEvent.put("id", this.id);
