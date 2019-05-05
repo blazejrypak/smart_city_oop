@@ -1,10 +1,8 @@
 package models;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import helpers.NotificationListeners;
 import helpers.NotificationManager;
-import models.users.AdminUser;
-import models.users.ClientUser;
-import models.users.OfficeUser;
 import org.json.simple.JSONObject;
 
 public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
@@ -14,7 +12,7 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
     public enum STATES {
         TO_DO, IN_PROGRESS, DONE;
 
-        public String getTitle() {
+        public String getTitle() throws NullPointerException {
             STATES state = STATES.valueOf(super.toString());
             switch (state) {
                 case TO_DO:
@@ -24,36 +22,19 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
                 case DONE:
                     return "Done";
             }
-            return "";
+            throw new  NullPointerException();
         }
     }
 
     private NotificationManager notificationManager = new NotificationManager();
 
-    public void addSubscriber(String eventType, AdminUser listener) {
+    public void addSubscriber(String eventType, NotificationListeners listener) {
         notificationManager.subscribe(eventType, listener);
     }
 
-    public void addSubscriber(String eventType, OfficeUser listener) {
-        notificationManager.subscribe(eventType, listener);
-    }
-
-    public void addSubscriber(String eventType, ClientUser listener) {
-        notificationManager.subscribe(eventType, listener);
-    }
-
-    public void removeSubscriber(Object eventType, AdminUser listener) {
+    public void removeSubscriber(String eventType, NotificationListeners listener) {
         notificationManager.unsubscribe(eventType, listener);
     }
-
-    public void removeSubscriber(Object eventType, OfficeUser listener) {
-        notificationManager.unsubscribe(eventType, listener);
-    }
-
-    public void removeSubscriber(Object eventType, ClientUser listener) {
-        notificationManager.unsubscribe(eventType, listener);
-    }
-
 
     public void notify(String eventType, CategoryEvent categoryEvent) {
         notificationManager.notify(eventType, categoryEvent);

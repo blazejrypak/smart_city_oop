@@ -14,7 +14,7 @@ public class OfficeUser extends User implements NotificationListeners {
         CategoryEvent categoryEvent = (CategoryEvent) object;
         ArrayList<User> users = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
         for (User user : users) {
-            if (user.getRole().equals("officer") && this.getId() == user.getId()) {
+            if (user.getRole().equals(OfficeUser.class.getSimpleName()) && this.getId() == user.getId()) {
                 user.addNotification("You have another new suggestion: " + categoryEvent.getTitle() + ":  " + categoryEvent.getMessage());
                 if (user.getId() == dataStorage.getLoggedInUser().getId()) {
                     dataStorage.setLoggedInUser(user); // update loggedInUser with notifications

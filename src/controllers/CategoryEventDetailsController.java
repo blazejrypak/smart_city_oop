@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.CategoryEvent;
 import models.GeneralCategory;
+import models.users.ClientUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -133,12 +134,15 @@ public class CategoryEventDetailsController implements Initializable {
             }
         }
         dataStorage.updateCategories(this.getGeneralCategory());
-
-        back(event);
+        for (ClientUser user: dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())){
+            categoryEvent.addSubscriber("new_state", user);
+        }
+        categoryEvent.notify("new_state", categoryEvent);
+        backToDashboard(event);
     }
 
     @FXML
-    private void back(ActionEvent event) {
+    private void backToDashboard(ActionEvent event) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));

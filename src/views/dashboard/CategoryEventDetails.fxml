@@ -134,7 +134,7 @@
                 </HBox>
             </children>
         </VBox>
-      <JFXButton onAction="#back" buttonType="RAISED" layoutX="826.0" layoutY="10.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="366.0" ripplerFill="#b4d5dd" style="-fx-background-color: #b4d5dd;" text="BACK TO DASHBOARD">
+      <JFXButton onAction="#backToDashboard" buttonType="RAISED" layoutX="826.0" layoutY="10.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="366.0" ripplerFill="#b4d5dd" style="-fx-background-color: #b4d5dd;" text="BACK TO DASHBOARD">
          <font>
             <Font name="Arial Bold" size="24.0" />
          </font></JFXButton>

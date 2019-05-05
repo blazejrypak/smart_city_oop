@@ -1,9 +1,5 @@
 package helpers;
 
-import models.users.AdminUser;
-import models.users.ClientUser;
-import models.users.OfficeUser;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +24,7 @@ public class NotificationManager {
      * @param eventType is specific type of notification
      * @param listener  is listener of specific notification type
      */
-    public void subscribe(String eventType, AdminUser listener) {
+    public void subscribe(String eventType, NotificationListeners listener) {
         initializeSubscriber(eventType);
         this.listeners.get(eventType).add(listener);
     }
@@ -37,41 +33,7 @@ public class NotificationManager {
      * @param eventType is specific type of notification
      * @param listener  is listener of specific notification type
      */
-    public void subscribe(String eventType, OfficeUser listener) {
-        initializeSubscriber(eventType);
-        this.listeners.get(eventType).add(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void subscribe(String eventType, ClientUser listener) {
-        initializeSubscriber(eventType);
-        this.listeners.get(eventType).add(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, AdminUser listener) {
-        this.listeners.get(eventType).remove(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, OfficeUser listener) {
-        this.listeners.get(eventType).remove(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, ClientUser listener) {
+    public void unsubscribe(String eventType, NotificationListeners listener) {
         this.listeners.get(eventType).remove(listener);
     }
 
