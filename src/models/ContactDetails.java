@@ -56,9 +56,7 @@ public class ContactDetails {
         JSONObject contactDetails = new JSONObject();
         contactDetails.put("email", this.email);
         contactDetails.put("gender", this.gender);
-        if (this.address != null) {
-            contactDetails.put("address", this.address.getJSONObject());
-        }
+        contactDetails.put("address", this.address.getJSONObject());
         contactDetails.put("phone_number", this.phone_number);
         contactDetails.put("fax", this.fax);
         return contactDetails;

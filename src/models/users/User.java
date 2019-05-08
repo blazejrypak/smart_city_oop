@@ -130,11 +130,12 @@ public class User implements NotificationListeners {
         setPassword((String) user.get("password"));
         setFirst_name((String) user.get("first_name"));
         setLast_name((String) user.get("last_name"));
-        ContactDetails contactDetails = new ContactDetails();
-        contactDetails.setEmail((String) user.get("email"));
-        contactDetails.setGender((String) user.get("gender"));
-        contactDetails.setPhone_number((String) user.get("phone_number"));
-        setContactDetails(contactDetails);
+        JSONObject jsonObjectContactDetails = (JSONObject) user.get("contactDetails");
+        contactDetails.setEmail((String) jsonObjectContactDetails.get("email"));
+        contactDetails.setGender((String) jsonObjectContactDetails.get("gender"));
+        contactDetails.setPhone_number((String) jsonObjectContactDetails.get("phone_number"));
+        JSONObject jsonObjectAddress = (JSONObject) jsonObjectContactDetails.get("address");
+        contactDetails.getAddress().populate(jsonObjectAddress);
         setRole((String) user.get("role"));
         JSONArray jsonArrayNotifications = (JSONArray) user.get("notifications");
         for (Object object : jsonArrayNotifications) {
