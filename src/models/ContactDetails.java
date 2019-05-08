@@ -45,7 +45,7 @@ public class ContactDetails {
 
     private String email;
     private String gender;
-    private Address address;
+    private Address address = new Address();
     private String phone_number;
     private int fax;
 

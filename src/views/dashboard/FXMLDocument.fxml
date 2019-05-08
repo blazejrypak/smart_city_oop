@@ -48,6 +48,11 @@
                         <Font name="Roboto Bold" size="14.0" />
                     </font>
                 </JFXButton>
+            <JFXButton fx:id="btnChangeAddress" layoutX="10.0" layoutY="151.0" onAction="#switchChangeAddress" prefHeight="42.0" prefWidth="191.0" text="Change address" textFill="#a1aec4">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+            </JFXButton>
                 <JFXButton fx:id="btnAddCategory" layoutX="10.0" layoutY="154.0" onAction="#switchAddCategory" prefHeight="42.0" prefWidth="184.0" text="Add category" textFill="#a1aec4">
                     <font>
                         <Font name="Roboto Bold" size="14.0" />
