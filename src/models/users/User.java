@@ -2,9 +2,11 @@ package models.users;
 
 import helpers.NotificationListeners;
 import models.ContactDetails;
+import models.Notification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class User implements NotificationListeners {
@@ -17,8 +19,7 @@ public class User implements NotificationListeners {
     private ContactDetails contactDetails = new ContactDetails();
     private String role;
 
-    private ArrayList<String> notifications = new ArrayList<>();
-
+    private ArrayList<Notification> notifications = new ArrayList<>();
 
     public User() {
         this.id = ++incrementId;
@@ -95,7 +96,9 @@ public class User implements NotificationListeners {
 
     private JSONArray getNotificationsJsonArray() {
         JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(this.notifications);
+        for (Notification notification: this.notifications) {
+            jsonArray.add(notification.getJSONObject());
+        }
         return jsonArray;
     }
 
@@ -135,16 +138,21 @@ public class User implements NotificationListeners {
         setRole((String) user.get("role"));
         JSONArray jsonArrayNotifications = (JSONArray) user.get("notifications");
         for (Object object : jsonArrayNotifications) {
-            this.notifications.add((String) object);
+            Notification new_notification = new Notification();
+            new_notification.populate((JSONObject) object);
+            this.notifications.add(new_notification);
         }
     }
 
-    public ArrayList<String> getAllNotifications() {
+    public ArrayList<Notification> getAllNotifications() {
         return notifications;
     }
 
-    public void addNotification(String notification) {
-        this.notifications.add(notification);
+    public void addNotification(String message) {
+        Notification new_notification = new Notification();
+        new_notification.setLocalDate(LocalDate.now());
+        new_notification.setMessage(message);
+        this.notifications.add(new_notification);
     }
 
     @Override

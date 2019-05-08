@@ -66,7 +66,6 @@ public class DashboardController implements Initializable {
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
         } else {
             vertical_menu.getChildren().remove(btnAddCategory);
-            vertical_menu.getChildren().remove(btnNotifications);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
         }
         //Load all fxmls in a cache
