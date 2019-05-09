@@ -17,7 +17,7 @@ public class User implements NotificationListeners {
     private String first_name;
     private String last_name;
     private ContactDetails contactDetails = new ContactDetails();
-    private String role;
+    private String role = ClientUser.class.getSimpleName();
 
     private ArrayList<Notification> notifications = new ArrayList<>();
 

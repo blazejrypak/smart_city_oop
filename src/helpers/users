@@ -1,1 +1,90 @@
-[{"password":"officer","role":"OfficeUser","last_name":"Kuhl","id":3,"first_name":"Ronny","contactDetails":{"address":{"country":"","city":"","postal_code":"","homeNumber":"","street_name":""},"gender":null,"phone_number":null,"fax":0,"email":null},"notifications":[{"localDate":"2019-05-08","message":"You have another new suggestion: Street Light:  dsff","seen":false}],"username":"officer"},{"password":"root","role":"AdminUser","last_name":"Godart","id":1,"first_name":"Wilbert","contactDetails":{"address":{"country":"","city":"","postal_code":"","homeNumber":"","street_name":""},"gender":null,"phone_number":null,"fax":0,"email":null},"notifications":[],"username":"root"},{"password":"client","role":"ClientUser","last_name":"Cakes","id":4,"first_name":"Bertha","contactDetails":{"address":{"country":"Slovakia","city":"Zakamenne","postal_code":"02956","homeNumber":"123","street_name":"Dolinka"},"gender":null,"phone_number":null,"fax":0,"email":null},"notifications":[],"username":"client"}]
+[
+  {
+    "password": "root",
+    "role": "AdminUser",
+    "last_name": "Godart",
+    "id": 1,
+    "first_name": "Wilbert",
+    "contactDetails": {
+      "address": {
+        "country": "",
+        "city": "",
+        "postal_code": "",
+        "homeNumber": "",
+        "street_name": ""
+      },
+      "gender": null,
+      "phone_number": null,
+      "fax": 0,
+      "email": null
+    },
+    "notifications": [],
+    "username": "root"
+  },
+  {
+    "password": "officer",
+    "role": "OfficeUser",
+    "last_name": "Kuhl",
+    "id": 3,
+    "first_name": "Ronny",
+    "contactDetails": {
+      "address": {
+        "country": "",
+        "city": "",
+        "postal_code": "",
+        "homeNumber": "",
+        "street_name": ""
+      },
+      "gender": null,
+      "phone_number": null,
+      "fax": 0,
+      "email": null
+    },
+    "notifications": [],
+    "username": "officer"
+  },
+  {
+    "password": "client",
+    "role": "ClientUser",
+    "last_name": "Cakes",
+    "id": 4,
+    "first_name": "Bertha",
+    "contactDetails": {
+      "address": {
+        "country": "Slovakia",
+        "city": "Zakamenne",
+        "postal_code": "02956",
+        "homeNumber": "123",
+        "street_name": "Dolinka"
+      },
+      "gender": null,
+      "phone_number": null,
+      "fax": 0,
+      "email": null
+    },
+    "notifications": [],
+    "username": "client"
+  },
+  {
+    "password": "citizen",
+    "role": "ClientUser",
+    "last_name": null,
+    "id": 7,
+    "first_name": null,
+    "contactDetails": {
+      "address": {
+        "country": "",
+        "city": "",
+        "postal_code": "",
+        "homeNumber": "",
+        "street_name": ""
+      },
+      "gender": null,
+      "phone_number": null,
+      "fax": 0,
+      "email": null
+    },
+    "notifications": [],
+    "username": "citizen"
+  }
+]

@@ -75,7 +75,7 @@ public class DashboardController implements Initializable {
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
             profiles = FXMLLoader.load(getClass().getResource("/views/dashboard/Profiles.fxml"));
-            events = FXMLLoader.load(getClass().getResource("/views/dashboard/Categories.fxml"));
+            events = FXMLLoader.load(getClass().getResource("/views/dashboard/CategoryEvents.fxml"));
             add_category = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategory.fxml"));
             add_category_event = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategoryEvent.fxml"));
             list_of_category_events = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfCategoryEvents.fxml"));

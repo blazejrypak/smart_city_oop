@@ -1,12 +1,9 @@
 package helpers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NotificationManager {
-    private Map<String, List<NotificationListeners>> listeners = new HashMap<String, List<NotificationListeners>>();
+    private Map<String, Set<NotificationListeners>> listeners = new HashMap<String, Set<NotificationListeners>>();
 
     /**
      * This method creates new relation between eventType and listeners
@@ -15,7 +12,7 @@ public class NotificationManager {
      */
     private void initializeSubscriber(String eventType) {
         if (this.listeners.get(eventType) == null) {
-            List<NotificationListeners> notificationListeners = new ArrayList<NotificationListeners>();
+            Set<NotificationListeners> notificationListeners = new HashSet<>();
             this.listeners.put(eventType, notificationListeners);
         }
     }
