@@ -8,15 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventsController">
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListOfAllUsersController">
     <children>
-        <Label layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="315.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;" text="List of category events" />
+        <Label layoutX="19.0" layoutY="17.0" prefHeight="29.0" prefWidth="315.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #7387A8;" text="List of users" />
         <Separator layoutX="3.0" layoutY="55.0" prefHeight="4.0" prefWidth="1213.0" />
-        <ComboBox fx:id="id_combo_category" layoutX="316.0" layoutY="59.0" onAction="#showCategory" prefHeight="26.0" prefWidth="315.0" />
+        <ComboBox fx:id="id_combo_options" layoutX="316.0" layoutY="59.0" onAction="#showUser" prefHeight="26.0" prefWidth="315.0" />
         <VBox fx:id="id_vbox_container" alignment="TOP_CENTER" layoutX="20.0" layoutY="121.0" prefHeight="567.0" prefWidth="1128.0" spacing="50.0">
             <children>
                 <JFXTreeTableView fx:id="table" layoutX="22.0" layoutY="23.0" prefHeight="491.0" prefWidth="974.0" />
-                <Button contentDisplay="TOP" mnemonicParsing="false" text="Button" />
             </children>
         </VBox>
     </children>

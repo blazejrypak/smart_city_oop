@@ -38,7 +38,6 @@ public class DataStorage {
     private DataStorage() {
         loadUsers();
         loadCategories();
-        generalCategories = getAllCategories();
     }
 
     public void addCategory(GeneralCategory generalCategory) {
@@ -94,11 +93,13 @@ public class DataStorage {
     }
 
     public ArrayList<GeneralCategory> getGeneralCategories() {
+        this.generalCategories = getAllCategories();
         return this.generalCategories;
     }
 
     public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
         this.generalCategories = generalCategoryArrayList;
+        saveCategories();
     }
 
     /**
@@ -113,6 +114,7 @@ public class DataStorage {
                 break;
             }
         }
+        saveCategories();
     }
 
     /**
@@ -132,28 +134,17 @@ public class DataStorage {
             for (Object event : (JSONArray) category.get("category_events")) {
                 JSONObject json_event = (JSONObject) event;
                 CategoryEvent categoryEvent = new CategoryEvent();
-                categoryEvent.setTitle((String) json_event.get("title"));
-                categoryEvent.setMessage((String) json_event.get("message"));
-                categoryEvent.setState(CategoryEvent.STATES.valueOf((String) json_event.get("state")));
-
-                Localization localization = new Localization();
-                JSONObject json_localization = (JSONObject) json_event.get("localization");
-                localization.setLatitude(((Number) json_localization.get("latitude")).doubleValue());
-                localization.setLatitude(((Number) json_localization.get("longitude")).doubleValue());
-
-                Address address = new Address();
-                JSONObject json_address = (JSONObject) json_event.get("address");
-                address.setCountry((String) json_address.get("country"));
-                address.setCity((String) json_address.get("city"));
-                address.setPostalCode((String) json_address.get("postal_code"));
-                address.setHomeNumber((String) json_address.get("homeNumber"));
-                address.setStreetName((String) json_address.get("street_name"));
-
-                categoryEvent.setLocalization(localization);
-                categoryEvent.setAddress(address);
-
+                categoryEvent.populate(json_event);
+                if (json_event.get("subscribers") != null) {
+                    for (Object o: (JSONArray) json_event.get("subscribers")) {
+                        for (User user: getAllUsers(User.class, User.class.getSimpleName())) {
+                            if (user.getId() == ((Number) o).intValue()) {
+                                categoryEvent.addSubscriber(user.getId(), "new_state", user);
+                            }
+                        }
+                    }
+                }
                 categoryEvents.add(categoryEvent);
-
                 if (((Number) json_event.get("id")).intValue() > category_event_increment_id) {
                     category_event_increment_id = ((Number) json_event.get("id")).intValue();
                 }

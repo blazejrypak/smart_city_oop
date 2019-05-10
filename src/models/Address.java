@@ -61,4 +61,13 @@ public class Address {
         address.put("homeNumber", this.homeNumber);
         return address;
     }
+
+    public void populate(JSONObject address){
+        this.setCountry((String) address.get("country"));
+        this.setCity((String) address.get("city"));
+        this.setStreetName((String) address.get("street_name"));
+        this.setPostalCode((String) address.get("postal_code"));
+        this.setHomeNumber((String) address.get("homeNumber"));
+    }
+
 }

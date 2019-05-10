@@ -21,6 +21,7 @@ import models.GeneralCategory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CategoryEventDetailsController implements Initializable {
@@ -126,19 +127,21 @@ public class CategoryEventDetailsController implements Initializable {
     @FXML
     private void submit(ActionEvent event) {
         categoryEvent.setState(CategoryEvent.STATES.valueOf(String.valueOf(this.combo_box.getValue())));
-        for (CategoryEvent e : this.getGeneralCategory().getCategoryEvents()) {
+        ArrayList<CategoryEvent> categoryEventArrayList = generalCategory.getCategoryEvents();
+        for (CategoryEvent e : categoryEventArrayList) {
             if (e.getId() == categoryEvent.getId()) {
                 e = categoryEvent;
                 break;
             }
         }
-        dataStorage.updateCategories(this.getGeneralCategory());
-
-        back(event);
+        generalCategory.setCategoryEvents(categoryEventArrayList);
+        dataStorage.updateCategories(generalCategory);
+        categoryEvent.notify("new_state", categoryEvent);
+        backToDashboard(event);
     }
 
     @FXML
-    private void back(ActionEvent event) {
+    private void backToDashboard(ActionEvent event) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/views/dashboard/FXMLDocument.fxml"));

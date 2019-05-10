@@ -9,7 +9,6 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,12 +19,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.CategoryEvent;
 import models.GeneralCategory;
-import models.users.ClientUser;
-import models.users.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,9 +36,6 @@ public class ListOfCategoryEvents implements Initializable {
 
     private DataStorage dataStorage = DataStorage.getInstance();
     private GeneralCategory currentGeneralCategory;
-
-    @FXML
-    private VBox id_vbox_container;
 
     @FXML
     private ComboBox<String> id_combo_category;
@@ -67,14 +60,6 @@ public class ListOfCategoryEvents implements Initializable {
             }
         }
         return null;
-    }
-
-    private void changeState(ActionEvent actionEvent) {
-        CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
-        for (User user : dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())) {
-            categoryEvent.addSubscriber("new_state", (ClientUser) user);
-        }
-        categoryEvent.notify("new_state", categoryEvent);
     }
 
     @FXML
@@ -104,12 +89,9 @@ public class ListOfCategoryEvents implements Initializable {
 
             final TreeItem<CategoryEvent> root = new RecursiveTreeItem<CategoryEvent>(category_event_list, RecursiveTreeObject::getChildren);
             table.getColumns().setAll(title, address, message, state);
-            table.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                        handleClickEvent(table.getSelectionModel().getSelectedItem().getValue(), event);
-                    }
+            table.setOnMousePressed(event -> {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    handleClickEvent(currentGeneralCategory, table.getSelectionModel().getSelectedItem().getValue(), event);
                 }
             });
             table.setRoot(root);
@@ -117,7 +99,7 @@ public class ListOfCategoryEvents implements Initializable {
         }
     }
 
-    public void handleClickEvent(CategoryEvent categoryEvent, MouseEvent event){
+    public void handleClickEvent(GeneralCategory generalCategory, CategoryEvent categoryEvent, MouseEvent event){
         CategoryEventDetails(categoryEvent.getId(), event);
     }
 
