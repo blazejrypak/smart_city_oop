@@ -1,5 +1,6 @@
 package models.users;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import helpers.NotificationListeners;
 import models.ContactDetails;
 import models.Notification;
@@ -9,7 +10,7 @@ import org.json.simple.JSONObject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class User implements NotificationListeners {
+public class User extends RecursiveTreeObject<User> implements NotificationListeners {
     private static int incrementId = 0;
     private int id;
     private String username;

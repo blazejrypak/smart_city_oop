@@ -1,6 +1,7 @@
 package models.users;
 
 import helpers.DataStorage;
+import helpers.NotificationListeners;
 import models.CategoryEvent;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class AdminUser is just specific role of user, AdminUser extends User class
  */
-public class AdminUser extends User {
+public class AdminUser extends User implements NotificationListeners {
     private DataStorage dataStorage = DataStorage.getInstance();
 
     public AdminUser() {

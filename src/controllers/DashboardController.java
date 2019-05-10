@@ -56,7 +56,10 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXButton btnChangeAddress;
 
-    private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications, change_address;
+    @FXML
+    private JFXButton btnUserSettings;
+
+    private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications, change_address, user_settings;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,9 +70,11 @@ public class DashboardController implements Initializable {
             vertical_menu.getChildren().remove(btnEvents);
         } else if (dataStorage.getLoggedInUser().getRole().equals(OfficeUser.class.getSimpleName())) {
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
+            vertical_menu.getChildren().remove(btnUserSettings);
         } else {
             vertical_menu.getChildren().remove(btnAddCategory);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+            vertical_menu.getChildren().remove(btnUserSettings);
         }
         //Load all fxmls in a cache
         try {
@@ -81,6 +86,7 @@ public class DashboardController implements Initializable {
             list_of_category_events = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfCategoryEvents.fxml"));
             notifications = FXMLLoader.load(getClass().getResource("/views/dashboard/Notifications.fxml"));
             change_address = FXMLLoader.load(getClass().getResource("/views/dashboard/ChangeAddress.fxml"));
+            user_settings = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfAllUsers.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,6 +147,11 @@ public class DashboardController implements Initializable {
     @FXML
     private void switchChangeAddress(ActionEvent event) {
         setNode(change_address);
+    }
+
+    @FXML
+    private void switchUserSettings(ActionEvent event) {
+        setNode(user_settings);
     }
 
     @FXML
