@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is general manager for all notification channels
+ */
 public class NotificationManager {
     private Map<String, Set<NotificationListeners>> listeners = new HashMap<String, Set<NotificationListeners>>();
 

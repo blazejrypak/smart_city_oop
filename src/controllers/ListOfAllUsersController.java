@@ -80,7 +80,7 @@ public class ListOfAllUsersController implements Initializable {
         }
     }
 
-    public void handleClickEvent(User user, MouseEvent event) {
+    private void handleClickEvent(User user, MouseEvent event) {
         UserSettingDetail(user.getId(), event);
     }
 

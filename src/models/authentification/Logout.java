@@ -12,6 +12,7 @@ public class Logout {
      * This is method to logout user from app.
      */
     public void logout() {
+        dataStorage.saveData();
         dataStorage.setLoggedInUser(null);
         System.out.println("Succesfuly logged out.");
     }

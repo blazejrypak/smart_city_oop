@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+/**
+ * This class save and load files to JSON
+ */
 public class DataStorage {
     private static DataStorage instance;
     private JSONParser parser = new JSONParser();
@@ -51,8 +54,12 @@ public class DataStorage {
 
     public void addCategory(GeneralCategory generalCategory) {
         this.generalCategories.add(generalCategory);
+        saveCategories();
     }
 
+    /**
+     * @param users is Array list of users
+     */
     public void updateUsersData(ArrayList<User> users) {
         this.jsonArrayUsers.clear();
         for (User user : users) {
@@ -106,6 +113,10 @@ public class DataStorage {
         return this.generalCategories;
     }
 
+    /**
+     * This method update all categories
+     * @param generalCategoryArrayList array list of categories to update with
+     */
     public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
         this.generalCategories = generalCategoryArrayList;
         saveCategories();

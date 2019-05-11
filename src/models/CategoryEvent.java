@@ -23,7 +23,7 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
         this.subscribersUID = subscribersUID;
     }
 
-    private Set<Integer> subscribersUID = new HashSet<>();
+    private Set<Integer> subscribersUID = new HashSet<>(); // set only for followers to this event
 
     public enum STATES {
         TO_DO, IN_PROGRESS, DONE;
@@ -46,7 +46,7 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
 
     public void addSubscriber(int UID, String eventType, NotificationListeners listener) {
         notificationManager.subscribe(eventType, listener);
-        if (eventType.equals("new_state")) {
+        if (eventType.equals("new_state")) { // followers to this event, listeners for new state
             this.subscribersUID.add(UID);
         }
     }

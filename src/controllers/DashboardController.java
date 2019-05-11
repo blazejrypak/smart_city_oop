@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.authentification.Logout;
 import models.users.AdminUser;
 import models.users.OfficeUser;
 
@@ -63,7 +64,7 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) {
+        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) { // what can not Admin see on dash
             vertical_menu.getChildren().remove(btnAddCategory);
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
@@ -71,12 +72,13 @@ public class DashboardController implements Initializable {
         } else if (dataStorage.getLoggedInUser().getRole().equals(OfficeUser.class.getSimpleName())) {
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
             vertical_menu.getChildren().remove(btnUserSettings);
+            vertical_menu.getChildren().remove(btnEvents);
         } else {
             vertical_menu.getChildren().remove(btnAddCategory);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
             vertical_menu.getChildren().remove(btnUserSettings);
         }
-        //Load all fxmls in a cache
+        //Load all fxmls  in a cache
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
             profiles = FXMLLoader.load(getClass().getResource("/views/dashboard/Profiles.fxml"));
@@ -156,7 +158,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void logout(ActionEvent event) {
-        dataStorage.saveData();
+        Logout logout = new Logout();
+        logout.logout();
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/account/login.fxml"));

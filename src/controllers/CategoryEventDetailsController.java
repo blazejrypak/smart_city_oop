@@ -128,7 +128,7 @@ public class CategoryEventDetailsController implements Initializable {
     private void submit(ActionEvent event) {
         categoryEvent.setState(CategoryEvent.STATES.valueOf(String.valueOf(this.combo_box.getValue())));
         ArrayList<CategoryEvent> categoryEventArrayList = generalCategory.getCategoryEvents();
-        for (CategoryEvent e : categoryEventArrayList) {
+        for (CategoryEvent e : categoryEventArrayList) { // update event in array list
             if (e.getId() == categoryEvent.getId()) {
                 e = categoryEvent;
                 break;
