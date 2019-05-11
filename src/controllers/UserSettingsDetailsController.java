@@ -78,6 +78,7 @@ public class UserSettingsDetailsController implements Initializable {
     @FXML
     private void submit(ActionEvent event) {
         ArrayList<User> userArrayList = dataStorage.getAllUsers(User.class, User.class.getSimpleName());
+        // get all types of user roles
         for (User user : userArrayList) {
             if (user.getId() == UID) {
                 user.setRole(String.valueOf(this.combo_box.getValue()));

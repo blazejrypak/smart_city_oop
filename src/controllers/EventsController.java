@@ -32,6 +32,7 @@ public class EventsController extends ListOfCategoryEventsController implements 
         yes_button.setStyle("-fx-background-color: #505AFF");
         yes_button.setOnAction(event1 -> {
             dialog.close();
+            // add new follower to this event
             generalCategory.getCategoryEventById(categoryEvent.getId()).addSubscriber(dataStorage.getLoggedInUser().getId(), "new_state", dataStorage.getLoggedInUser());
         });
 

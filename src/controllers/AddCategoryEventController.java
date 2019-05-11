@@ -75,6 +75,7 @@ public class AddCategoryEventController implements Initializable {
         categoryEvent.setState(CategoryEvent.STATES.TO_DO);
         categoryEvent.setUID(dataStorage.getLoggedInUser().getId());
         categoryEvent.addSubscriber(dataStorage.getLoggedInUser().getId(), "new_state", dataStorage.getLoggedInUser());
+        // add all officers as subscribers to this event
         for (OfficeUser officeUser : dataStorage.getAllUsers(OfficeUser.class, OfficeUser.class.getSimpleName())) {
             categoryEvent.addSubscriber(officeUser.getId(), "new_category_event", officeUser);
         }
