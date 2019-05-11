@@ -27,8 +27,8 @@ public class HomeController implements Initializable {
         int sent = 0;
         int resolved = 0;
         int notifications = dataStorage.getLoggedInUser().getAllNotifications().size();
-        for (GeneralCategory generalCategory: dataStorage.getGeneralCategories()) {
-            for (CategoryEvent categoryEvent: generalCategory.getCategoryEvents()) {
+        for (GeneralCategory generalCategory : dataStorage.getGeneralCategories()) {
+            for (CategoryEvent categoryEvent : generalCategory.getCategoryEvents()) {
                 sent++;
                 if (categoryEvent.getState() == CategoryEvent.STATES.DONE) {
                     resolved++;

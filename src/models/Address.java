@@ -62,7 +62,7 @@ public class Address {
         return address;
     }
 
-    public void populate(JSONObject address){
+    public void populate(JSONObject address) {
         this.setCountry((String) address.get("country"));
         this.setCity((String) address.get("city"));
         this.setStreetName((String) address.get("street_name"));

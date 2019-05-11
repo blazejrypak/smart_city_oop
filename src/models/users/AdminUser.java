@@ -18,6 +18,7 @@ public class AdminUser extends User implements NotificationListeners {
 
     /**
      * This method add notification to user
+     *
      * @param object object sent by NotificationManager
      */
     @Override

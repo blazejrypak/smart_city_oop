@@ -42,7 +42,7 @@ public class Notification extends RecursiveTreeObject<Notification> {
         return notification;
     }
 
-    public void populate(JSONObject notification){
+    public void populate(JSONObject notification) {
         setLocalDate(LocalDate.parse((String) notification.get("localDate")));
         setMessage((String) notification.get("message"));
         setSeen((Boolean) notification.get("seen"));

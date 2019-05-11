@@ -97,7 +97,7 @@ public class User extends RecursiveTreeObject<User> implements NotificationListe
 
     private JSONArray getNotificationsJsonArray() {
         JSONArray jsonArray = new JSONArray();
-        for (Notification notification: this.notifications) {
+        for (Notification notification : this.notifications) {
             jsonArray.add(notification.getJSONObject());
         }
         return jsonArray;
@@ -123,6 +123,7 @@ public class User extends RecursiveTreeObject<User> implements NotificationListe
 
     /**
      * This method populate fields from JSONObject
+     *
      * @param user JSONObject user
      */
     public void populate(JSONObject user) {

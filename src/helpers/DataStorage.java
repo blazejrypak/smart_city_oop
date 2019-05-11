@@ -1,6 +1,7 @@
 package helpers;
 
-import models.*;
+import models.CategoryEvent;
+import models.GeneralCategory;
 import models.users.AdminUser;
 import models.users.ClientUser;
 import models.users.OfficeUser;
@@ -60,9 +61,9 @@ public class DataStorage {
     }
 
     /**
-     * @param c class of user
+     * @param c    class of user
      * @param role user role
-     * @param <T> generic type
+     * @param <T>  generic type
      * @return Array of specific class of users
      */
     public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
@@ -112,6 +113,7 @@ public class DataStorage {
 
     /**
      * This method update specific category
+     *
      * @param generalCategory is class of general category
      */
     public void updateCategories(GeneralCategory generalCategory) {
@@ -144,8 +146,8 @@ public class DataStorage {
                 CategoryEvent categoryEvent = new CategoryEvent();
                 categoryEvent.populate(json_event);
                 if (json_event.get("subscribers") != null) {
-                    for (Object o: (JSONArray) json_event.get("subscribers")) {
-                        for (User user: getAllUsers(User.class, User.class.getSimpleName())) {
+                    for (Object o : (JSONArray) json_event.get("subscribers")) {
+                        for (User user : getAllUsers(User.class, User.class.getSimpleName())) {
                             if (user.getId() == ((Number) o).intValue()) {
                                 categoryEvent.addSubscriber(user.getId(), "new_state", user);
                             }
@@ -228,6 +230,7 @@ public class DataStorage {
 
     /**
      * This method add user to json list of users and save it to JSON file.
+     *
      * @param user class of User
      */
     public void addUser(User user) {
@@ -275,6 +278,7 @@ public class DataStorage {
 
     /**
      * This methot always return just one instance, here is used Singleton pattern
+     *
      * @return instance of this class
      */
     public static DataStorage getInstance() {
