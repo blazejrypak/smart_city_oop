@@ -41,7 +41,7 @@ public class CategoryEventDetailsController implements Initializable {
     private static GeneralCategory generalCategory;
 
     public void setCategoryEvent(CategoryEvent categoryEvent) {
-        this.categoryEvent = categoryEvent;
+        CategoryEventDetailsController.categoryEvent = categoryEvent;
     }
 
     @FXML
@@ -107,7 +107,7 @@ public class CategoryEventDetailsController implements Initializable {
         }
     }
 
-    private void handleChangeIndex(){
+    private void handleChangeIndex() {
         switch (CategoryEvent.STATES.valueOf(String.valueOf(this.combo_box.getValue()))) {
             case TO_DO:
                 state_rectangle.setFill(Color.RED);

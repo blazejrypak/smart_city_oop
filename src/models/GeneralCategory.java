@@ -60,6 +60,7 @@ public class GeneralCategory {
 
     /**
      * This method return Category event by id.
+     *
      * @param ID ID of category event
      * @return
      */

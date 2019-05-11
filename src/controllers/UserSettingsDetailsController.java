@@ -55,13 +55,13 @@ public class UserSettingsDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Set<String> list = new HashSet<String>();
-        for (User user: dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
+        for (User user : dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
             list.add(user.getRole());
         }
         List<String> options = new ArrayList<>();
         options.addAll(list);
         ObservableList obList = FXCollections.observableList(options);
-        for (User u: dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
+        for (User u : dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
             if (u.getId() == UID && UID != 0) {
                 this.user = u;
                 break;

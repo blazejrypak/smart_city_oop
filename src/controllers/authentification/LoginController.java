@@ -1,6 +1,5 @@
 package controllers.authentification;
 
-import models.authentification.Login;
 import helpers.DataStorage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.authentification.Login;
 
 import java.io.IOException;
 import java.net.URL;

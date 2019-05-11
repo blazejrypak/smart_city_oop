@@ -26,11 +26,11 @@ public class NotificationsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setPrefWidth(900);
         table.setVisible(true);
-        JFXTreeTableColumn<Notification,String> message = new JFXTreeTableColumn("Message");
+        JFXTreeTableColumn<Notification, String> message = new JFXTreeTableColumn("Message");
         message.setPrefWidth(700);
         message.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getMessage()));
 
-        JFXTreeTableColumn<Notification,String> localDate = new JFXTreeTableColumn("Time");
+        JFXTreeTableColumn<Notification, String> localDate = new JFXTreeTableColumn("Time");
         localDate.setPrefWidth(200);
         localDate.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getLocalDate().toString()));
 

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ListOfCategoryEvents implements Initializable {
+public class ListOfCategoryEventsController implements Initializable {
 
     @FXML
     private JFXTreeTableView<CategoryEvent> table;
@@ -68,19 +68,19 @@ public class ListOfCategoryEvents implements Initializable {
         table.setVisible(true);
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {
 
-            JFXTreeTableColumn<CategoryEvent,String> title = new JFXTreeTableColumn("Type of suggestion");
+            JFXTreeTableColumn<CategoryEvent, String> title = new JFXTreeTableColumn("Type of suggestion");
             title.setPrefWidth(200);
             title.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getTitle()));
 
-            JFXTreeTableColumn<CategoryEvent,String> address = new JFXTreeTableColumn("Address");
+            JFXTreeTableColumn<CategoryEvent, String> address = new JFXTreeTableColumn("Address");
             address.setPrefWidth(300);
             address.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getAddress().getStreetName()));
 
-            JFXTreeTableColumn<CategoryEvent,String> message = new JFXTreeTableColumn("Message");
+            JFXTreeTableColumn<CategoryEvent, String> message = new JFXTreeTableColumn("Message");
             message.setPrefWidth(500);
             message.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getMessage()));
 
-            JFXTreeTableColumn<CategoryEvent,String> state = new JFXTreeTableColumn("State");
+            JFXTreeTableColumn<CategoryEvent, String> state = new JFXTreeTableColumn("State");
             state.setPrefWidth(100);
             state.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getState().getTitle()));
 
@@ -99,7 +99,7 @@ public class ListOfCategoryEvents implements Initializable {
         }
     }
 
-    public void handleClickEvent(GeneralCategory generalCategory, CategoryEvent categoryEvent, MouseEvent event){
+    public void handleClickEvent(GeneralCategory generalCategory, CategoryEvent categoryEvent, MouseEvent event) {
         CategoryEventDetails(categoryEvent.getId(), event);
     }
 
