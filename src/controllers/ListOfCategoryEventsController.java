@@ -8,7 +8,6 @@ import helpers.DataStorage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,7 +62,7 @@ public class ListOfCategoryEventsController implements Initializable {
     }
 
     @FXML
-    private void showCategory(ActionEvent actionEvent) {
+    private void showCategory() {
         table.setPrefWidth(900);
         table.setVisible(true);
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {

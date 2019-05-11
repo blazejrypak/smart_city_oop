@@ -1,14 +1,1 @@
-[
-  {
-    "id": 2,
-    "type": "potholes",
-    "title": "Potholes",
-    "category_events": []
-  },
-  {
-    "id": 1,
-    "type": "street_lights",
-    "title": "Street Light",
-    "category_events": []
-  }
-]
+[]
