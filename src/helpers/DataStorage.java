@@ -36,8 +36,16 @@ public class DataStorage {
     private User loggedInUser;
 
     private DataStorage() {
-        loadUsers();
-        loadCategories();
+        try {
+            loadUsers();
+        } catch (IncorrectFilePathException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadCategories();
+        } catch (IncorrectFilePathException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addCategory(GeneralCategory generalCategory) {
@@ -238,7 +246,7 @@ public class DataStorage {
     /**
      * This method load all user from JSON file to json user list
      */
-    private void loadUsers() {
+    private void loadUsers() throws IncorrectFilePathException {
         try {
 
             Object obj = parser.parse(new FileReader(USERS));
@@ -246,14 +254,14 @@ public class DataStorage {
             this.jsonArrayUsers = (JSONArray) obj;
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new IncorrectFilePathException("Incorrect path to filename " + USERS, e);
         }
     }
 
     /**
      * This method load all user from JSON file to json category list
      */
-    private void loadCategories() {
+    private void loadCategories() throws IncorrectFilePathException {
         try {
 
             Object obj = parser.parse(new FileReader(CATEGORIES));
@@ -261,7 +269,7 @@ public class DataStorage {
             this.jsonArrayCategories = (JSONArray) obj;
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new IncorrectFilePathException("Incorrect path to filename " + CATEGORIES, e);
         }
     }
 
