@@ -1,6 +1,10 @@
 package helpers;
 
 import models.*;
+import models.users.AdminUser;
+import models.users.ClientUser;
+import models.users.OfficeUser;
+import models.users.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,9 +36,16 @@ public class DataStorage {
     private User loggedInUser;
 
     private DataStorage() {
-        loadUsers();
-        loadCategories();
-        generalCategories = getAllCategories();
+        try {
+            loadUsers();
+        } catch (IncorrectFilePathException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadCategories();
+        } catch (IncorrectFilePathException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addCategory(GeneralCategory generalCategory) {
@@ -48,6 +59,12 @@ public class DataStorage {
         }
     }
 
+    /**
+     * @param c class of user
+     * @param role user role
+     * @param <T> generic type
+     * @return Array of specific class of users
+     */
     public <T> ArrayList<T> getAllUsers(Class<T> c, String role) {
         boolean allUsers = false;
         if (role.equals(User.class.getSimpleName())) {
@@ -84,13 +101,19 @@ public class DataStorage {
     }
 
     public ArrayList<GeneralCategory> getGeneralCategories() {
+        this.generalCategories = getAllCategories();
         return this.generalCategories;
     }
 
     public void updateCategories(ArrayList<GeneralCategory> generalCategoryArrayList) {
         this.generalCategories = generalCategoryArrayList;
+        saveCategories();
     }
 
+    /**
+     * This method update specific category
+     * @param generalCategory is class of general category
+     */
     public void updateCategories(GeneralCategory generalCategory) {
         for (GeneralCategory category : this.generalCategories) {
             if (category.getId() == generalCategory.getId()) {
@@ -99,8 +122,12 @@ public class DataStorage {
                 break;
             }
         }
+        saveCategories();
     }
 
+    /**
+     * @return Array List of all categories
+     */
     private ArrayList<GeneralCategory> getAllCategories() {
         ArrayList<GeneralCategory> categories = new ArrayList<GeneralCategory>();
         int category_increment_id = 0;
@@ -115,28 +142,17 @@ public class DataStorage {
             for (Object event : (JSONArray) category.get("category_events")) {
                 JSONObject json_event = (JSONObject) event;
                 CategoryEvent categoryEvent = new CategoryEvent();
-                categoryEvent.setTitle((String) json_event.get("title"));
-                categoryEvent.setMessage((String) json_event.get("message"));
-                categoryEvent.setState(CategoryEvent.STATES.valueOf((String) json_event.get("state")));
-
-                Localization localization = new Localization();
-                JSONObject json_localization = (JSONObject) json_event.get("localization");
-                localization.setLatitude(((Number) json_localization.get("latitude")).doubleValue());
-                localization.setLatitude(((Number) json_localization.get("longitude")).doubleValue());
-
-                Address address = new Address();
-                JSONObject json_address = (JSONObject) json_event.get("address");
-                address.setCountry((String) json_address.get("country"));
-                address.setCity((String) json_address.get("city"));
-                address.setPostalCode((String) json_address.get("postal_code"));
-                address.setHomeNumber((String) json_address.get("homeNumber"));
-                address.setStreetName((String) json_address.get("street_name"));
-
-                categoryEvent.setLocalization(localization);
-                categoryEvent.setAddress(address);
-
+                categoryEvent.populate(json_event);
+                if (json_event.get("subscribers") != null) {
+                    for (Object o: (JSONArray) json_event.get("subscribers")) {
+                        for (User user: getAllUsers(User.class, User.class.getSimpleName())) {
+                            if (user.getId() == ((Number) o).intValue()) {
+                                categoryEvent.addSubscriber(user.getId(), "new_state", user);
+                            }
+                        }
+                    }
+                }
                 categoryEvents.add(categoryEvent);
-
                 if (((Number) json_event.get("id")).intValue() > category_event_increment_id) {
                     category_event_increment_id = ((Number) json_event.get("id")).intValue();
                 }
@@ -154,6 +170,9 @@ public class DataStorage {
         return categories;
     }
 
+    /**
+     * This method save all categories to JSON file
+     */
     private void saveCategories() {
         this.jsonArrayCategories.clear();
         for (GeneralCategory generalCategory : this.generalCategories) {
@@ -183,6 +202,9 @@ public class DataStorage {
         saveCategories();
     }
 
+    /**
+     * This method save all users to JSON file.
+     */
     private void saveUsers() {
         if (loggedInUser != null) {
             for (Object obj : this.jsonArrayUsers) {
@@ -204,6 +226,10 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This method add user to json list of users and save it to JSON file.
+     * @param user class of User
+     */
     public void addUser(User user) {
         this.jsonArrayUsers.add(user.getJSONObject());
 
@@ -217,7 +243,10 @@ public class DataStorage {
         }
     }
 
-    private void loadUsers() {
+    /**
+     * This method load all user from JSON file to json user list
+     */
+    private void loadUsers() throws IncorrectFilePathException {
         try {
 
             Object obj = parser.parse(new FileReader(USERS));
@@ -225,11 +254,14 @@ public class DataStorage {
             this.jsonArrayUsers = (JSONArray) obj;
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new IncorrectFilePathException("Incorrect path to filename " + USERS, e);
         }
     }
 
-    private void loadCategories() {
+    /**
+     * This method load all user from JSON file to json category list
+     */
+    private void loadCategories() throws IncorrectFilePathException {
         try {
 
             Object obj = parser.parse(new FileReader(CATEGORIES));
@@ -237,10 +269,14 @@ public class DataStorage {
             this.jsonArrayCategories = (JSONArray) obj;
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new IncorrectFilePathException("Incorrect path to filename " + CATEGORIES, e);
         }
     }
 
+    /**
+     * This methot always return just one instance, here is used Singleton pattern
+     * @return instance of this class
+     */
     public static DataStorage getInstance() {
         if (instance == null) {
             instance = new DataStorage();

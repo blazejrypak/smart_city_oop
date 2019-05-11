@@ -1,12 +1,16 @@
-package models;
+package models.users;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import helpers.NotificationListeners;
+import models.ContactDetails;
+import models.Notification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class User implements NotificationListeners {
+public class User extends RecursiveTreeObject<User> implements NotificationListeners {
     private static int incrementId = 0;
     private int id;
     private String username;
@@ -14,10 +18,9 @@ public class User implements NotificationListeners {
     private String first_name;
     private String last_name;
     private ContactDetails contactDetails = new ContactDetails();
-    private String role;
+    private String role = ClientUser.class.getSimpleName();
 
-    private ArrayList<String> notifications = new ArrayList<>();
-
+    private ArrayList<Notification> notifications = new ArrayList<>();
 
     public User() {
         this.id = ++incrementId;
@@ -94,10 +97,15 @@ public class User implements NotificationListeners {
 
     private JSONArray getNotificationsJsonArray() {
         JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(this.notifications);
+        for (Notification notification: this.notifications) {
+            jsonArray.add(notification.getJSONObject());
+        }
         return jsonArray;
     }
 
+    /**
+     * @return JSONObject user
+     */
     public JSONObject getJSONObject() {
         JSONObject user = new JSONObject();
         user.put("id", this.id);
@@ -113,30 +121,40 @@ public class User implements NotificationListeners {
         return user;
     }
 
+    /**
+     * This method populate fields from JSONObject
+     * @param user JSONObject user
+     */
     public void populate(JSONObject user) {
         setId(((Number) user.get("id")).intValue());
         setUsername((String) user.get("username"));
         setPassword((String) user.get("password"));
         setFirst_name((String) user.get("first_name"));
         setLast_name((String) user.get("last_name"));
-        ContactDetails contactDetails = new ContactDetails();
-        contactDetails.setEmail((String) user.get("email"));
-        contactDetails.setGender((String) user.get("gender"));
-        contactDetails.setPhone_number((String) user.get("phone_number"));
-        setContactDetails(contactDetails);
+        JSONObject jsonObjectContactDetails = (JSONObject) user.get("contactDetails");
+        contactDetails.setEmail((String) jsonObjectContactDetails.get("email"));
+        contactDetails.setGender((String) jsonObjectContactDetails.get("gender"));
+        contactDetails.setPhone_number((String) jsonObjectContactDetails.get("phone_number"));
+        JSONObject jsonObjectAddress = (JSONObject) jsonObjectContactDetails.get("address");
+        contactDetails.getAddress().populate(jsonObjectAddress);
         setRole((String) user.get("role"));
         JSONArray jsonArrayNotifications = (JSONArray) user.get("notifications");
         for (Object object : jsonArrayNotifications) {
-            this.notifications.add((String) object);
+            Notification new_notification = new Notification();
+            new_notification.populate((JSONObject) object);
+            this.notifications.add(new_notification);
         }
     }
 
-    public ArrayList<String> getAllNotifications() {
+    public ArrayList<Notification> getAllNotifications() {
         return notifications;
     }
 
-    public void addNotification(String notification) {
-        this.notifications.add(notification);
+    public void addNotification(String message) {
+        Notification new_notification = new Notification();
+        new_notification.setLocalDate(LocalDate.now());
+        new_notification.setMessage(message);
+        this.notifications.add(new_notification);
     }
 
     @Override

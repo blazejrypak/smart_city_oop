@@ -1,32 +1,45 @@
 package controllers;
 
+import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import helpers.DataStorage;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TreeItem;
+import models.Notification;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class NotificationsController implements Initializable {
     private DataStorage dataStorage = DataStorage.getInstance();
 
     @FXML
-    private ListView list_view;
-
+    private JFXTreeTableView<Notification> table;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<String> list = new ArrayList<String>();
-        for (String notification : dataStorage.getLoggedInUser().getAllNotifications()) {
-            list.add(notification);
-        }
-        ObservableList obList = FXCollections.observableList(list);
-        list_view.getItems().clear();
-        list_view.setItems(obList);
+        table.setPrefWidth(900);
+        table.setVisible(true);
+        JFXTreeTableColumn<Notification,String> message = new JFXTreeTableColumn("Message");
+        message.setPrefWidth(700);
+        message.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getMessage()));
+
+        JFXTreeTableColumn<Notification,String> localDate = new JFXTreeTableColumn("Time");
+        localDate.setPrefWidth(200);
+        localDate.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getLocalDate().toString()));
+
+        ObservableList<Notification> notificationObservableList = FXCollections.observableArrayList();
+        notificationObservableList.addAll(dataStorage.getLoggedInUser().getAllNotifications());
+
+        final TreeItem<Notification> root = new RecursiveTreeItem<Notification>(notificationObservableList, RecursiveTreeObject::getChildren);
+        table.getColumns().setAll(message, localDate);
+        table.setRoot(root);
+        table.setShowRoot(false);
     }
 }

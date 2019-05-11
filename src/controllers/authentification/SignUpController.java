@@ -1,5 +1,6 @@
-package controllers;
+package controllers.authentification;
 
+import models.authentification.Registration;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +12,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.Register;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,8 +46,8 @@ public class SignUpController implements Initializable {
 
     @FXML
     void signup(MouseEvent event) {
-        Register register = new Register();
-        if (register.register(username.getText(), password.getText())) {
+        Registration registration = new Registration();
+        if (registration.register(username.getText(), password.getText())) {
             alert.setText("Registration was successful :)");
         } else {
             alert.setText("Username is already used");

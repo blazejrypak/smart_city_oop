@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.*;
+import models.users.OfficeUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,14 +69,12 @@ public class AddCategoryEventController implements Initializable {
         address.setStreetName(this.id_street_name.getText());
         address.setHomeNumber(this.id_home_number.getText());
         categoryEvent.setAddress(address);
-        Localization localization = new Localization();
-        localization.setLatitude(47.0001);
-        localization.setLongitude(47.002);
-        categoryEvent.setLocalization(localization);
         categoryEvent.setMessage(this.id_message.getText());
         categoryEvent.setState(CategoryEvent.STATES.TO_DO);
+        categoryEvent.setUID(dataStorage.getLoggedInUser().getId());
+        categoryEvent.addSubscriber(dataStorage.getLoggedInUser().getId(), "new_state", dataStorage.getLoggedInUser());
         for (OfficeUser officeUser : dataStorage.getAllUsers(OfficeUser.class, OfficeUser.class.getSimpleName())) {
-            categoryEvent.addSubscriber("new_category_event", officeUser);
+            categoryEvent.addSubscriber(officeUser.getId(),"new_category_event", officeUser);
         }
         generalCategory.addCategoryEvent(categoryEvent);
         categoryEvent.notify("new_category_event", categoryEvent);

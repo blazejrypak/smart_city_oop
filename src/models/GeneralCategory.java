@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
-public class GeneralCategory implements Category {
+public class GeneralCategory {
     public GeneralCategory() {
         setId(++id_increment);
     }
@@ -40,12 +40,10 @@ public class GeneralCategory implements Category {
 
     private String type;
 
-    @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @Override
     public String getTitle() {
         return title;
     }
@@ -60,6 +58,11 @@ public class GeneralCategory implements Category {
         this.id = id;
     }
 
+    /**
+     * This method return Category event by id.
+     * @param ID ID of category event
+     * @return
+     */
     public CategoryEvent getCategoryEventById(int ID) {
         for (CategoryEvent categoryEvent : categoryEvents) {
             if (categoryEvent.getId() == ID) {
@@ -69,6 +72,9 @@ public class GeneralCategory implements Category {
         return null;
     }
 
+    /**
+     * @return JSONObject of GeneralCategory
+     */
     public JSONObject getJSONObject() {
         JSONObject category = new JSONObject();
         category.put("id", this.id);

@@ -1,6 +1,6 @@
-package controllers;
+package controllers.authentification;
 
-import authentification.Login;
+import models.authentification.Login;
 import helpers.DataStorage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
