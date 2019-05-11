@@ -9,7 +9,6 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,12 +19,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.CategoryEvent;
 import models.GeneralCategory;
-import models.users.ClientUser;
-import models.users.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,16 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ListOfCategoryEvents implements Initializable {
+public class ListOfCategoryEventsController implements Initializable {
 
     @FXML
     private JFXTreeTableView<CategoryEvent> table;
 
     private DataStorage dataStorage = DataStorage.getInstance();
     private GeneralCategory currentGeneralCategory;
-
-    @FXML
-    private VBox id_vbox_container;
 
     @FXML
     private ComboBox<String> id_combo_category;
@@ -69,33 +62,25 @@ public class ListOfCategoryEvents implements Initializable {
         return null;
     }
 
-    private void changeState(ActionEvent actionEvent) {
-        CategoryEvent categoryEvent = new CategoryEvent(); // treba este ziskat event z action_event
-        for (User user : dataStorage.getAllUsers(ClientUser.class, ClientUser.class.getSimpleName())) {
-            categoryEvent.addSubscriber("new_state", (ClientUser) user);
-        }
-        categoryEvent.notify("new_state", categoryEvent);
-    }
-
     @FXML
     private void showCategory(ActionEvent actionEvent) {
         table.setPrefWidth(900);
         table.setVisible(true);
         if (getCategory(this.id_combo_category.getValue()) != null && getCategory(this.id_combo_category.getValue()).getCategoryEvents() != null) {
 
-            JFXTreeTableColumn<CategoryEvent,String> title = new JFXTreeTableColumn("Type of suggestion");
+            JFXTreeTableColumn<CategoryEvent, String> title = new JFXTreeTableColumn("Type of suggestion");
             title.setPrefWidth(200);
             title.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getTitle()));
 
-            JFXTreeTableColumn<CategoryEvent,String> address = new JFXTreeTableColumn("Address");
+            JFXTreeTableColumn<CategoryEvent, String> address = new JFXTreeTableColumn("Address");
             address.setPrefWidth(300);
             address.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getAddress().getStreetName()));
 
-            JFXTreeTableColumn<CategoryEvent,String> message = new JFXTreeTableColumn("Message");
+            JFXTreeTableColumn<CategoryEvent, String> message = new JFXTreeTableColumn("Message");
             message.setPrefWidth(500);
             message.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getMessage()));
 
-            JFXTreeTableColumn<CategoryEvent,String> state = new JFXTreeTableColumn("State");
+            JFXTreeTableColumn<CategoryEvent, String> state = new JFXTreeTableColumn("State");
             state.setPrefWidth(100);
             state.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getState().getTitle()));
 
@@ -104,12 +89,9 @@ public class ListOfCategoryEvents implements Initializable {
 
             final TreeItem<CategoryEvent> root = new RecursiveTreeItem<CategoryEvent>(category_event_list, RecursiveTreeObject::getChildren);
             table.getColumns().setAll(title, address, message, state);
-            table.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                        handleClickEvent(table.getSelectionModel().getSelectedItem().getValue(), event);
-                    }
+            table.setOnMousePressed(event -> {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    handleClickEvent(currentGeneralCategory, table.getSelectionModel().getSelectedItem().getValue(), event);
                 }
             });
             table.setRoot(root);
@@ -117,7 +99,7 @@ public class ListOfCategoryEvents implements Initializable {
         }
     }
 
-    public void handleClickEvent(CategoryEvent categoryEvent, MouseEvent event){
+    public void handleClickEvent(GeneralCategory generalCategory, CategoryEvent categoryEvent, MouseEvent event) {
         CategoryEventDetails(categoryEvent.getId(), event);
     }
 

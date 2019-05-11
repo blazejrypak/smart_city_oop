@@ -1,16 +1,15 @@
 package helpers;
 
-import models.users.AdminUser;
-import models.users.ClientUser;
-import models.users.OfficeUser;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+/**
+ * This class is general manager for all notification channels
+ */
 public class NotificationManager {
-    private Map<String, List<NotificationListeners>> listeners = new HashMap<String, List<NotificationListeners>>();
+    private Map<String, Set<NotificationListeners>> listeners = new HashMap<String, Set<NotificationListeners>>();
 
     /**
      * This method creates new relation between eventType and listeners
@@ -19,7 +18,7 @@ public class NotificationManager {
      */
     private void initializeSubscriber(String eventType) {
         if (this.listeners.get(eventType) == null) {
-            List<NotificationListeners> notificationListeners = new ArrayList<NotificationListeners>();
+            Set<NotificationListeners> notificationListeners = new HashSet<>();
             this.listeners.put(eventType, notificationListeners);
         }
     }
@@ -28,7 +27,7 @@ public class NotificationManager {
      * @param eventType is specific type of notification
      * @param listener  is listener of specific notification type
      */
-    public void subscribe(String eventType, AdminUser listener) {
+    public void subscribe(String eventType, NotificationListeners listener) {
         initializeSubscriber(eventType);
         this.listeners.get(eventType).add(listener);
     }
@@ -37,47 +36,13 @@ public class NotificationManager {
      * @param eventType is specific type of notification
      * @param listener  is listener of specific notification type
      */
-    public void subscribe(String eventType, OfficeUser listener) {
-        initializeSubscriber(eventType);
-        this.listeners.get(eventType).add(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void subscribe(String eventType, ClientUser listener) {
-        initializeSubscriber(eventType);
-        this.listeners.get(eventType).add(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, AdminUser listener) {
+    public void unsubscribe(String eventType, NotificationListeners listener) {
         this.listeners.get(eventType).remove(listener);
     }
 
     /**
      * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, OfficeUser listener) {
-        this.listeners.get(eventType).remove(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param listener  is listener of specific notification type
-     */
-    public void unsubscribe(String eventType, ClientUser listener) {
-        this.listeners.get(eventType).remove(listener);
-    }
-
-    /**
-     * @param eventType is specific type of notification
-     * @param data is object which is send to listeners
+     * @param data      is object which is send to listeners
      */
     public void notify(String eventType, Object data) {
         for (NotificationListeners notificationListeners : this.listeners.get(eventType)) {

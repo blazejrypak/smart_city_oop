@@ -1,4 +1,5 @@
 package models.authentification;
+
 import helpers.DataStorage;
 import models.users.AdminUser;
 import models.users.User;
@@ -14,21 +15,25 @@ public class Registration {
 
     /**
      * This is method to find out, whether user does not exist.
+     *
      * @param username username of user
-     * @return
+     * @return boolean
      */
     private boolean usernameNotExist(String username) {
-        if (username.equals("bubo")) {
-            return false;
+        for (User user: dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     /**
      * Method to register user with username and password
+     *
      * @param username username of user
      * @param password password of user
-     * @return
+     * @return boolean
      */
     public boolean register(String username, String password) {
         if (usernameNotExist(username)) {

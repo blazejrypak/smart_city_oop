@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.authentification.Logout;
 import models.users.AdminUser;
 import models.users.OfficeUser;
 
@@ -53,31 +54,41 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXButton btnProfile;
 
-    private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications;
+    @FXML
+    private JFXButton btnChangeAddress;
+
+    @FXML
+    private JFXButton btnUserSettings;
+
+    private AnchorPane home, profiles, events, add_category, add_category_event, list_of_category_events, notifications, change_address, user_settings;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) {
+        if (dataStorage.getLoggedInUser().getRole().equals(AdminUser.class.getSimpleName())) { // what can not Admin see on dash
             vertical_menu.getChildren().remove(btnAddCategory);
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
             vertical_menu.getChildren().remove(btnEvents);
         } else if (dataStorage.getLoggedInUser().getRole().equals(OfficeUser.class.getSimpleName())) {
             vertical_menu.getChildren().remove(btnAddCategoryEvent);
+            vertical_menu.getChildren().remove(btnUserSettings);
+            vertical_menu.getChildren().remove(btnEvents);
         } else {
             vertical_menu.getChildren().remove(btnAddCategory);
-            vertical_menu.getChildren().remove(btnNotifications);
             vertical_menu.getChildren().remove(btnListOfCategoryEvents);
+            vertical_menu.getChildren().remove(btnUserSettings);
         }
-        //Load all fxmls in a cache
+        //Load all fxmls  in a cache
         try {
             home = FXMLLoader.load(getClass().getResource("/views/dashboard/Home.fxml"));
             profiles = FXMLLoader.load(getClass().getResource("/views/dashboard/Profiles.fxml"));
-            events = FXMLLoader.load(getClass().getResource("/views/dashboard/Categories.fxml"));
+            events = FXMLLoader.load(getClass().getResource("/views/dashboard/CategoryEvents.fxml"));
             add_category = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategory.fxml"));
             add_category_event = FXMLLoader.load(getClass().getResource("/views/dashboard/AddCategoryEvent.fxml"));
             list_of_category_events = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfCategoryEvents.fxml"));
             notifications = FXMLLoader.load(getClass().getResource("/views/dashboard/Notifications.fxml"));
+            change_address = FXMLLoader.load(getClass().getResource("/views/dashboard/ChangeAddress.fxml"));
+            user_settings = FXMLLoader.load(getClass().getResource("/views/dashboard/ListOfAllUsers.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,8 +147,19 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
+    private void switchChangeAddress(ActionEvent event) {
+        setNode(change_address);
+    }
+
+    @FXML
+    private void switchUserSettings(ActionEvent event) {
+        setNode(user_settings);
+    }
+
+    @FXML
     private void logout(ActionEvent event) {
-        dataStorage.saveData();
+        Logout logout = new Logout();
+        logout.logout();
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/account/login.fxml"));

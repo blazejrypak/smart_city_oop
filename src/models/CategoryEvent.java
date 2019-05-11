@@ -1,20 +1,34 @@
 package models;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import helpers.DataStorage;
+import helpers.NotificationListeners;
 import helpers.NotificationManager;
-import models.users.AdminUser;
-import models.users.ClientUser;
-import models.users.OfficeUser;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
+    DataStorage dataStorage = DataStorage.getInstance();
     private static int incrementId = 0;
     private int id;
+
+    public Set<Integer> getSubscribersUID() {
+        return subscribersUID;
+    }
+
+    public void setSubscribersUID(Set<Integer> subscribersUID) {
+        this.subscribersUID = subscribersUID;
+    }
+
+    private Set<Integer> subscribersUID = new HashSet<>(); // set only for followers to this event
 
     public enum STATES {
         TO_DO, IN_PROGRESS, DONE;
 
-        public String getTitle() {
+        public String getTitle() throws NullPointerException {
             STATES state = STATES.valueOf(super.toString());
             switch (state) {
                 case TO_DO:
@@ -24,36 +38,25 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
                 case DONE:
                     return "Done";
             }
-            return "";
+            throw new NullPointerException();
         }
     }
 
     private NotificationManager notificationManager = new NotificationManager();
 
-    public void addSubscriber(String eventType, AdminUser listener) {
+    public void addSubscriber(int UID, String eventType, NotificationListeners listener) {
         notificationManager.subscribe(eventType, listener);
+        if (eventType.equals("new_state")) { // followers to this event, listeners for new state
+            this.subscribersUID.add(UID);
+        }
     }
 
-    public void addSubscriber(String eventType, OfficeUser listener) {
-        notificationManager.subscribe(eventType, listener);
-    }
-
-    public void addSubscriber(String eventType, ClientUser listener) {
-        notificationManager.subscribe(eventType, listener);
-    }
-
-    public void removeSubscriber(Object eventType, AdminUser listener) {
+    public void removeSubscriber(int UID, String eventType, NotificationListeners listener) {
         notificationManager.unsubscribe(eventType, listener);
+        if (eventType.equals("new_state")) {
+            this.subscribersUID.add(UID);
+        }
     }
-
-    public void removeSubscriber(Object eventType, OfficeUser listener) {
-        notificationManager.unsubscribe(eventType, listener);
-    }
-
-    public void removeSubscriber(Object eventType, ClientUser listener) {
-        notificationManager.unsubscribe(eventType, listener);
-    }
-
 
     public void notify(String eventType, CategoryEvent categoryEvent) {
         notificationManager.notify(eventType, categoryEvent);
@@ -80,7 +83,6 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
 
     private STATES state = STATES.TO_DO;
     private Address address;
-    private Localization localization;
 
     public CategoryEvent() {
         super();
@@ -111,14 +113,6 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
         this.address = address;
     }
 
-    public Localization getLocalization() {
-        return localization;
-    }
-
-    public void setLocalization(Localization localization) {
-        this.localization = localization;
-    }
-
     public int getUID() {
         return UID;
     }
@@ -140,7 +134,21 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
         categoryEvent.put("message", this.message);
         categoryEvent.put("state", this.state.toString());
         categoryEvent.put("address", this.address.getJSONObject());
-        categoryEvent.put("localization", this.localization.getJSONObject());
+        JSONArray jsonArraySub = new JSONArray();
+        for (int i : this.subscribersUID) {
+            jsonArraySub.add(i);
+        }
+        categoryEvent.put("subscribers", jsonArraySub);
         return categoryEvent;
+    }
+
+    public void populate(JSONObject jsonObject) {
+        this.setUID(((Number) jsonObject.get("UID")).intValue());
+        this.setTitle((String) jsonObject.get("title"));
+        this.setMessage((String) jsonObject.get("message"));
+        this.setState(CategoryEvent.STATES.valueOf((String) jsonObject.get("state")));
+        Address address = new Address();
+        address.populate((JSONObject) jsonObject.get("address"));
+        this.setAddress(address);
     }
 }
