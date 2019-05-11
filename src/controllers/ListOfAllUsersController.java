@@ -39,7 +39,7 @@ public class ListOfAllUsersController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Set<String> list = new HashSet<String>();
-        for (User user: dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
+        for (User user : dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
             list.add(user.getRole());
         }
         List<String> options = new ArrayList<>();
@@ -57,11 +57,11 @@ public class ListOfAllUsersController implements Initializable {
         table.setVisible(true);
         if (dataStorage.getAllUsers(User.class, User.class.getSimpleName()) != null) {
 
-            JFXTreeTableColumn<User,String> username = new JFXTreeTableColumn("Username");
+            JFXTreeTableColumn<User, String> username = new JFXTreeTableColumn("Username");
             username.setPrefWidth(600);
             username.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getUsername()));
 
-            JFXTreeTableColumn<User,String> role = new JFXTreeTableColumn("Role");
+            JFXTreeTableColumn<User, String> role = new JFXTreeTableColumn("Role");
             role.setPrefWidth(300);
             role.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getRole()));
 
@@ -80,7 +80,7 @@ public class ListOfAllUsersController implements Initializable {
         }
     }
 
-    public void handleClickEvent(User user, MouseEvent event){
+    public void handleClickEvent(User user, MouseEvent event) {
         UserSettingDetail(user.getId(), event);
     }
 

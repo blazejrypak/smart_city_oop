@@ -15,7 +15,7 @@ import models.GeneralCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsController extends ListOfCategoryEvents implements Initializable {
+public class EventsController extends ListOfCategoryEventsController implements Initializable {
     private DataStorage dataStorage = DataStorage.getInstance();
     @FXML
     private StackPane stackPane;
@@ -32,7 +32,7 @@ public class EventsController extends ListOfCategoryEvents implements Initializa
         yes_button.setStyle("-fx-background-color: #505AFF");
         yes_button.setOnAction(event1 -> {
             dialog.close();
-            generalCategory.getCategoryEventById(categoryEvent.getId()).addSubscriber(dataStorage.getLoggedInUser().getId(),"new_state", dataStorage.getLoggedInUser());
+            generalCategory.getCategoryEventById(categoryEvent.getId()).addSubscriber(dataStorage.getLoggedInUser().getId(), "new_state", dataStorage.getLoggedInUser());
         });
 
         JFXButton cancel_button = new JFXButton("Cancel");

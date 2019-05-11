@@ -46,7 +46,7 @@ public class ChangeAddress {
 
             stage.setScene(new Scene(root));
 
-        } catch (IOException exception){
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
 

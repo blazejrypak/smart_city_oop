@@ -1,6 +1,9 @@
 package helpers;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class NotificationManager {
     private Map<String, Set<NotificationListeners>> listeners = new HashMap<String, Set<NotificationListeners>>();
@@ -36,7 +39,7 @@ public class NotificationManager {
 
     /**
      * @param eventType is specific type of notification
-     * @param data is object which is send to listeners
+     * @param data      is object which is send to listeners
      */
     public void notify(String eventType, Object data) {
         for (NotificationListeners notificationListeners : this.listeners.get(eventType)) {

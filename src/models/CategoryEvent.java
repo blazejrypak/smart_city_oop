@@ -38,7 +38,7 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
                 case DONE:
                     return "Done";
             }
-            throw new  NullPointerException();
+            throw new NullPointerException();
         }
     }
 
@@ -135,14 +135,14 @@ public class CategoryEvent extends RecursiveTreeObject<CategoryEvent> {
         categoryEvent.put("state", this.state.toString());
         categoryEvent.put("address", this.address.getJSONObject());
         JSONArray jsonArraySub = new JSONArray();
-        for (int i: this.subscribersUID) {
+        for (int i : this.subscribersUID) {
             jsonArraySub.add(i);
         }
         categoryEvent.put("subscribers", jsonArraySub);
         return categoryEvent;
     }
 
-    public void populate(JSONObject jsonObject){
+    public void populate(JSONObject jsonObject) {
         this.setUID(((Number) jsonObject.get("UID")).intValue());
         this.setTitle((String) jsonObject.get("title"));
         this.setMessage((String) jsonObject.get("message"));
