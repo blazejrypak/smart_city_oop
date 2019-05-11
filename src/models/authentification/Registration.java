@@ -17,10 +17,15 @@ public class Registration {
      * This is method to find out, whether user does not exist.
      *
      * @param username username of user
-     * @return
+     * @return boolean
      */
     private boolean usernameNotExist(String username) {
-        return !username.equals("bubo");
+        for (User user: dataStorage.getAllUsers(User.class, User.class.getSimpleName())) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -28,7 +33,7 @@ public class Registration {
      *
      * @param username username of user
      * @param password password of user
-     * @return
+     * @return boolean
      */
     public boolean register(String username, String password) {
         if (usernameNotExist(username)) {
